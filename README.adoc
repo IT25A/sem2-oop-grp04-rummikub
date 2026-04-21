@@ -102,7 +102,7 @@ Nach dem Klonen ist deine Fork automatisch als `origin` eingetragen.
 
 [source,bash]
 ----
-git remote add upstream https://github.com/stefreschke/hwr-oop-project-template.git
+git remote add upstream https://github.com/stefreschke/hwr-oop-project-template-rummikub.git
 ----
 
 === Remotes prüfen
@@ -117,8 +117,8 @@ Erwartete Ausgabe:
 ....
 origin      https://github.com/DEIN_USER/TEMPLATE_FORK_REPO.git (fetch)
 origin      https://github.com/DEIN_USER/TEMPLATE_FORK_REPO.git (push)
-upstream    https://github.com/stefreschke/hwr-oop-project-template.git (fetch)
-upstream    https://github.com/stefreschke/hwr-oop-project-template.git (push)
+upstream    https://github.com/stefreschke/hwr-oop-project-template-rummikub.git (fetch)
+upstream    https://github.com/stefreschke/hwr-oop-project-template-rummikub.git (push)
 ....
 
 === Änderungen aus dem Template übernehmen
