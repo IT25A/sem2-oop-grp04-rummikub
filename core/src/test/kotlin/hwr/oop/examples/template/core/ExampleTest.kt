@@ -14,4 +14,5 @@ class ExampleTest {
 		// then
 		assertThat(result).startsWith("Hello").endsWith("!").contains("World")
 	}
+
 }
