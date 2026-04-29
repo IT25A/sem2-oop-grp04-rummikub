@@ -1,18 +1,10 @@
 package hwr.oop.examples.template.core
 
-class Tile(
-    private val number: Int?,
+
+data class Tile (
     private val color: TileColor,
+    private val number: TileNumber,
 ) {
-	fun number(): Int {
-		return number ?: 0
-	}
-	
-	fun color(): TileColor {
-		return color
-	}
-	
-	override fun toString(): String {
-		return "Tile: number=$number, color=$color"
-	}
+    fun color(): TileColor = color
+    fun number(): TileNumber = number
 }
