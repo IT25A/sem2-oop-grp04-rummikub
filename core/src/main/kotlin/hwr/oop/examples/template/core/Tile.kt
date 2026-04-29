@@ -12,4 +12,7 @@ class Tile(
 		return color
 	}
 	
+	override fun toString(): String {
+		return "Tile: number=$number, color=$color"
+	}
 }

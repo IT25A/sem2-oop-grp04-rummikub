@@ -13,4 +13,15 @@ class TileTest {
 		assertThat(testTile.number()).isEqualTo(7)
 		assertThat(testTile.color()).isEqualTo(TileColor.RED)
 	}
+	
+	@Test
+	fun `Tile_toString() returns number and color ` (){
+		// given
+		val number:Int = 7
+		val color:TileColor = TileColor.RED
+		// when
+		val tile = Tile(number = number, color = color)
+		// then
+		assertThat(tile.toString()).isEqualTo("Tile: number=$number, color=$color")
+	}
 }
