@@ -1,4 +1,4 @@
-mvnw := if os() == "windows" { "mvnw.cmd" } else { "./mvnw" }
+mvnw := if os() == "windows" { "./mvnw.cmd" } else { "./mvnw" }
 
 default:
     just --list
