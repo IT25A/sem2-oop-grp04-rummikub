@@ -5,6 +5,6 @@ class Example {
 }
 
 fun main() {
-	val tile = Tile(TileColor.YELLOW, 12)
-	println("color=${tile.color()}, number=${tile.number()}")
+	val tile = Tile(TileColor.YELLOW, TileNumber.N12)
+	println("color=${tile.color()}, number=${tile.number().value()}")
 }
