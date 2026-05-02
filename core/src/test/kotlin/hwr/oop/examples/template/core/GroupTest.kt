@@ -41,6 +41,12 @@ class GroupTest {
             assertThat(group.tiles.map { it.color }.distinct()).hasSize(3)
         }
     }
+    @ParameterizedTest
+    @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+    fun `group value equals number times 4 for all colors`(number: Int) {
+        val tiles = Color.entries.map { color ->
+            Tile(color, number)
+        }
 
 
 
