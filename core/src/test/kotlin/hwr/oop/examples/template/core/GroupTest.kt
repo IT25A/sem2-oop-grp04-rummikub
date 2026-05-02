@@ -47,7 +47,10 @@ class GroupTest {
         val tiles = Color.entries.map { color ->
             Tile(color, number)
         }
+        val group = Group(tiles)
 
+        assertThat(group.value()).isEqualTo(number * 4)
+    }
 
 
 
