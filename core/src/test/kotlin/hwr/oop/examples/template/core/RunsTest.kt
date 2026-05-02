@@ -8,9 +8,38 @@ import org.junit.jupiter.params.provider.ValueSource
 class RunsTest {
     @ParameterizedTest
     @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    fun `run value equals sum of all numbers for every valid run`(startNumber: Int) {
+        for (color in Color.entries) {
+            val lastPossibleNumber = 13
+            val longestPossibleRunLength = lastPossibleNumber - startNumber + 1
+
+            for (runLength in 3..longestPossibleRunLength) {
+                val numbers = startNumber..<startNumber + runLength
+
+                val tiles = numbers.map { number ->
+                    Tile(color, number)
+                }
+
+                val run = Run(tiles)
+
+                val expectedValue = numbers.sum()
+
+                assertThat(run.value()).isEqualTo(expectedValue)
+            }
+        }
+    }
+
+
+
+
+    @ParameterizedTest
+    @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    //Der Wert einer Run ist die Summe aller Zahlen der Steine.
+    //ab 12 meldet fehler da summe nicht reicht
     fun `run value equals sum of all tile numbers`(startNumber: Int) {
         for (color in Color.entries) {
             val maxLength = 13 - startNumber + 1
+            //Hier wird berechnet, wie lang die Run maximal sein kann
 
             for (length in 3..maxLength) {
                 val tiles = (0 until length).map { offset ->
