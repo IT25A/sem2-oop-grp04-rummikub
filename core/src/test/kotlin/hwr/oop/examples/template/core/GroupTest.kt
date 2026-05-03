@@ -12,8 +12,14 @@ class GroupTest {
     @ValueSource(ints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
     fun `group value equals number times 3 for any 3 colors`(number: Int) {
         for (excludedColor in Color.entries) {
-            val colors = Color.entries.filter { it != excludedColor }
+            // Wenn die Farben sind:
+            // RED, BLUE, BLACK, ORANGE
+            // dann lassen wir immer eine Farbe weg,
+            // damit alle möglichen 3er-Gruppen getestet werden.
 
+            val colors = Color.entries.filter { it != excludedColor }
+            // Hier werden alle Farben genommen,
+            // außer die Farbe excludedColor.
             val tiles = colors.map { color ->
                 Tile(color, number)
             }
@@ -39,6 +45,7 @@ class GroupTest {
             assertThat(group.tiles).hasSize(3)
             assertThat(group.tiles).allMatch { it.number == number }
             assertThat(group.tiles.map { it.color }.distinct()).hasSize(3)
+            // hier muuss die größe 3 steine sein also distinct um douplikate auszulassen
         }
     }
     @ParameterizedTest
