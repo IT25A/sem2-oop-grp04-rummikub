@@ -31,7 +31,6 @@ class PoolTests {
         val distinct = tiles.distinct()
         //then
         assertThat(distinct).hasSize(53).allMatch { tile -> tiles.count { it == tile } == 2 }
-
     }
 
     @Test
@@ -42,6 +41,14 @@ class PoolTests {
         //then
         assertThat(distinct).hasSize(52).allMatch { tile -> tiles.count { it == tile } == 2 }
 
+    }
+
+    @Test
+    fun `pool without Joker, contains no Joker`(){
+        val tiles = poolWithoutJoker.tiles()
+        val jokers = tiles.filter { it.number() == TileNumber.JOKER && it.color() == TileColor.JOKER }
+        //then
+        assertThat(jokers).isEmpty()
     }
 
     @Test

@@ -13,6 +13,10 @@ class GameTests {
         private val player3 = PlayerId("player3")
         private val player4 = PlayerId("player4")
 
+        private const val POOL_SIZE_WITH_JOKER      = 106
+        private const val POOL_SIZE_WITHOUT_JOKER   = 104
+        private const val TILES_PER_PLAYER          = 14
+
         @JvmStatic
         fun playerCombinations(): Stream<List<PlayerId>> = Stream.of(
             listOf(player1, player2),
@@ -23,13 +27,41 @@ class GameTests {
 
     @ParameterizedTest
     @MethodSource("playerCombinations")
-    fun `new Game, Players all have 14 tiles in Rack`(players: List<PlayerId>) {
+    fun `new Game with Joker, Players all have 14 tiles in Rack`(players: List<PlayerId>) {
         val game = Game.createNewGame(players = players, withJoker = true)
         //when
-        val racks = players.map { player -> game.rackOf(player) }
+        val racks = players.map { game.rackOf(it) }
         //then
-        assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == 14 }
+        assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
     }
 
+    @ParameterizedTest
+    @MethodSource("playerCombinations")
+    fun `new Game without Joker, Players all have 14 tiles in Rack`(players: List<PlayerId>) {
+        val game = Game.createNewGame(players = players, withJoker = false)
+        //when
+        val racks = players.map { game.rackOf(it) }
+        //then
+        assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
+    }
 
+    @ParameterizedTest
+    @MethodSource("playerCombinations")
+    fun `new Game with Joker, Pool has appropriate amount of tiles leftover`(players: List<PlayerId>) {
+        val game = Game.createNewGame(players = players, withJoker = true)
+        //when
+        val poolSize = game.pool().tiles().size
+        //then
+        assertThat(poolSize).isEqualTo(POOL_SIZE_WITH_JOKER - (players.size * TILES_PER_PLAYER))
+    }
+
+    @ParameterizedTest
+    @MethodSource("playerCombinations")
+    fun `new Game without Joker, Pool has appropriate amount of tiles leftover`(players: List<PlayerId>) {
+        val game = Game.createNewGame(players = players, withJoker = false)
+        //when
+        val poolSize = game.pool().tiles().size
+        //then
+        assertThat(poolSize).isEqualTo(POOL_SIZE_WITHOUT_JOKER - (players.size * TILES_PER_PLAYER))
+    }
 }

@@ -1,6 +1,6 @@
 package hwr.oop.examples.template.core
 
-enum class MeldType {
+enum class SetType {
     RUN,
     GROUP
 }
