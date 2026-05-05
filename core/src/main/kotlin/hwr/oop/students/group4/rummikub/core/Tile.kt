@@ -1,4 +1,4 @@
-package hwr.oop.examples.template.core
+package hwr.oop.students.group4.rummikub.core
 
 class Tile (val color: TileColor, val number: TileNumber) {
 	

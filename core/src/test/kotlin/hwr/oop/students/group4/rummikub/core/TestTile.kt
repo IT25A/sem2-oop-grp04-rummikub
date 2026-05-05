@@ -1,10 +1,9 @@
-package hwr.oop.examples.template.core
+package hwr.oop.students.group4.rummikub.core
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
-import org.junit.jupiter.params.provider.ValueSource
 
 class TestTile {
 	@ParameterizedTest

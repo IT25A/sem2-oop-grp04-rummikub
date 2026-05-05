@@ -1,4 +1,4 @@
-package hwr.oop.examples.template.core
+package hwr.oop.students.group4.rummikub.core
 
 enum class TileNumber(private val value: Int) {
 	ONE(1),
