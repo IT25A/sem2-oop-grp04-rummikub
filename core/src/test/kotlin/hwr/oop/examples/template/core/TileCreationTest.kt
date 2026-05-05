@@ -6,7 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 class TileCreationTest {
-
+    // delete every one but the last. because that one coveres everything
     @Test
     fun `all tile colors exist`() {
         // given
@@ -21,7 +21,6 @@ class TileCreationTest {
             TileColor.JOKER
         )
     }
-
     @ParameterizedTest
     @EnumSource(TileColor::class)
     fun `all numbers, color does exist`(color: TileColor) {
@@ -55,10 +54,10 @@ class TileCreationTest {
     @Test
     fun `all tile numbers exist`() {
         // given
-        val colors = TileNumber.entries
+        val numbers = TileNumber.entries
         // when
         // then
-        assertThat(colors).containsExactlyInAnyOrder(
+        assertThat(numbers).containsExactlyInAnyOrder(
             TileNumber.ONE,
             TileNumber.TWO,
             TileNumber.THREE,
@@ -88,8 +87,8 @@ class TileCreationTest {
         )
 
         //when
-        val tiles = allColors.map { Tile(it, number) }
-        val colors = tiles.map { it.color() }
+        val tiles = allColors.map { Tile(it, number) } // this creates 4 Tiles, one of each color, for the current number
+        val colors = tiles.map { it.color() } // this creates a list of all colors used in `val tiles`. If this is the same as allColors, test succeeds
 
         //then
         assertThat(tiles).hasSize(allColors.size).allMatch{ it.number() == number }
