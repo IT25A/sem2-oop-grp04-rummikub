@@ -1,6 +1,6 @@
 package hwr.oop.examples.template.core
 
-enum class TileNumber(val value: Int) {
+enum class TileNumber(private val value: Int) {
 	ONE(1),
 	TWO(2),
 	THREE(3),
@@ -13,5 +13,9 @@ enum class TileNumber(val value: Int) {
 	TEN(10),
 	ELEVEN(11),
 	TWELVE(12),
-	THIRTEEN(13)
+	THIRTEEN(13);
+	
+	fun value(): Int {
+		return this.value
+	}
 }

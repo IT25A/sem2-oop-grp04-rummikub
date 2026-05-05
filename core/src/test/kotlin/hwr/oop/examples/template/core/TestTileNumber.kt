@@ -30,6 +30,6 @@ class TestTileNumber {
 		assertThat(allNumbers).containsExactlyInAnyOrder(*correctNames.toTypedArray())
 		
 		// if value is private this can not be checked like this
-		assertThat(allNumbers.map{ it.value }).containsExactlyInAnyOrder(*correctValues)
+		assertThat(allNumbers.map{ it.value() }).containsExactlyInAnyOrder(*correctValues)
 	}
 }
