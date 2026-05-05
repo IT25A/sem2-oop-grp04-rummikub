@@ -5,20 +5,32 @@ data class Pool(
 ){
     fun tiles(): List<Tile> = tiles
 
-    fun toMutablePool(): MutablePool = MutablePool(tiles.toMutableList())
+    fun toMutablePool(): PoolMutable = PoolMutable(tiles.toMutableList())
 
     companion object {
-        fun createShuffledPool(): Pool = Pool(
-            ((1..2).flatMap {
-                TileColor.entries.filter{ it != TileColor.JOKER }.flatMap { color ->
-                    TileNumber.entries.filter{ it != TileNumber.JOKER }.map { number ->
-                        Tile(color, number)
+        fun createShuffledPool(includeJoker: Boolean): Pool {
+            if (includeJoker) {
+                val tiles = ((1..2).flatMap {
+                    TileColor.entries.filter{ it != TileColor.JOKER }.flatMap { color ->
+                        TileNumber.entries.filter{ it != TileNumber.JOKER }.map { number ->
+                            Tile(color, number)
+                        }
                     }
-                }
-            } + listOf(
-                Tile(TileColor.JOKER, TileNumber.JOKER),
-                Tile(TileColor.JOKER, TileNumber.JOKER),
-            )).shuffled()
-        )
+                }) + listOf<Tile>(
+                    Tile(TileColor.JOKER,TileNumber.JOKER),
+                    Tile(TileColor.JOKER, TileNumber.JOKER))
+                return Pool(tiles.shuffled())
+            }
+            else {
+                val tiles = ((1..2).flatMap {
+                    TileColor.entries.filter{ it != TileColor.JOKER }.flatMap { color ->
+                        TileNumber.entries.filter{ it != TileNumber.JOKER }.map { number ->
+                            Tile(color, number)
+                        }
+                    }
+                })
+                return Pool(tiles.shuffled())
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
 package hwr.oop.examples.template.core
 
-class StartGameRequest {
+enum class MeldType {
+    RUN,
+    GROUP
 }

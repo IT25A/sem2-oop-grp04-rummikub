@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
-class TileCreationTest {
+class TileTests {
 
     @Test
     fun `all tile colors exist`() {
@@ -51,14 +51,41 @@ class TileCreationTest {
 
         assertThat(numbers).containsExactlyInAnyOrderElementsOf(allNumbers)
     }
+    //TO DO: Add JOKER
+    @ParameterizedTest
+    @EnumSource(TileColor::class)
+    fun `all numbers, points do exist`(color: TileColor) {
+        //given
+        val allNumbers = listOf(
+            TileNumber.ONE,
+            TileNumber.TWO,
+            TileNumber.THREE,
+            TileNumber.FOUR,
+            TileNumber.FIVE,
+            TileNumber.SIX,
+            TileNumber.SEVEN,
+            TileNumber.EIGHT,
+            TileNumber.NINE,
+            TileNumber.TEN,
+            TileNumber.ELEVEN,
+            TileNumber.TWELVE,
+            TileNumber.THIRTEEN,
+        )
+        //when
+        val tiles: List<Tile> = allNumbers.map { Tile(color, it) }
+        val points: List<Int> = tiles.map { it.points() }
+        val sum = points.sum()
+        //then
+        assertThat(sum).isEqualTo(91)
+    }
 
     @Test
     fun `all tile numbers exist`() {
         // given
-        val colors = TileNumber.entries
+        val numbers = TileNumber.entries
         // when
         // then
-        assertThat(colors).containsExactlyInAnyOrder(
+        assertThat(numbers).containsExactlyInAnyOrder(
             TileNumber.ONE,
             TileNumber.TWO,
             TileNumber.THREE,
