@@ -9,7 +9,6 @@ class TestTileColor {
 		// given
 		val tileColors = TileColor.entries
 		// when
-		
 		// then
 		assertThat(tileColors).containsExactlyInAnyOrder(
 			TileColor.RED,
@@ -18,5 +17,4 @@ class TestTileColor {
 			TileColor.BLACK
 		)
 	}
-	
 }

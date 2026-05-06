@@ -26,9 +26,7 @@ class TestTileNumber {
 		// when
 		val allNumbers = TileNumber.entries
 		// then
-		println()
 		assertThat(allNumbers).containsExactlyInAnyOrder(*correctNames.toTypedArray())
-		
 		// if value is private this can not be checked like this
 		assertThat(allNumbers.map{ it.value() }).containsExactlyInAnyOrder(*correctValues)
 	}
