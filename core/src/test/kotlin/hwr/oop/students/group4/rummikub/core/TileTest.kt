@@ -6,7 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TestTile {
+class TileTest {
 	fun provideTestData(): Iterable<Pair<TileNumber, TileColor>> {
 		val testData = TileNumber.entries.flatMap { number ->
 			TileColor.entries.map {

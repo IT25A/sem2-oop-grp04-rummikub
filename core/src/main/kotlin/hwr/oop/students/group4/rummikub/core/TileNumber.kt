@@ -1,6 +1,8 @@
 package hwr.oop.students.group4.rummikub.core
 
-enum class TileNumber(private val value: Int) {
+enum class TileNumber(
+	private val value: Int
+) {
 	ONE(1),
 	TWO(2),
 	THREE(3),
@@ -15,7 +17,5 @@ enum class TileNumber(private val value: Int) {
 	TWELVE(12),
 	THIRTEEN(13);
 	
-	fun value(): Int {
-		return this.value
-	}
+	fun value(): Int = value
 }
