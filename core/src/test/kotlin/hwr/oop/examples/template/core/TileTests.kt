@@ -70,6 +70,7 @@ class TileTests {
             TileNumber.ELEVEN,
             TileNumber.TWELVE,
             TileNumber.THIRTEEN,
+            TileNumber.JOKER,
         )
         //when
         val tiles: List<Tile> = allNumbers.map { Tile(color, it) }
