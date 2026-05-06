@@ -46,4 +46,9 @@ data class Set(
         val gaps = (min..max).count { it !in numbers } + (tiles.size - (max - min + 1))
         return gaps <= jokerCount
     }
+
+    fun canAdd(set: Set): Boolean {
+
+    }
+    fun addToSet(tile: Tile): Set {}
 }
