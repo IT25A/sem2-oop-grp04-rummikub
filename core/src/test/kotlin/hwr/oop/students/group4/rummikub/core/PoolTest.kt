@@ -7,13 +7,12 @@ import org.junit.jupiter.api.Test
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PoolTest {
     //given
-    val game = Game.generateShuffledDeck()
-    val pool = game.pool()
+    val game = Game.startNewGame()
 
     @Test
     fun `pool without Joker contains 104 tiles`() {
         //when
-        val tiles = pool.tiles()
+        val tiles = game.pool().tiles()
         //then
         assertThat(tiles).hasSize(104)
     }
@@ -21,16 +20,17 @@ class PoolTest {
     @Test
     fun `pool without Joker contains each distinct tile twice`(){
         //when
-        val tiles = pool.tiles()
+        val tiles = game.pool().tiles()
         val distinct = tiles.distinct()
         //then
         assertThat(distinct).hasSize(52).allMatch { tile -> tiles.count { it == tile } == 2 }
     }
     @Test
     fun `drawing from pool`(){
-        val beforeTiles = pool.tiles().toMutableList()
-        val drawnTile = pool.draw()
-        val afterTiles = pool.tiles().toMutableList()
+        val game = Game.startNewGame()
+        val beforeTiles = game.pool().tiles().toMutableList()
+        val drawnTile = game.pool().draw()
+        val afterTiles = game.pool().tiles().toMutableList()
         afterTiles.add(drawnTile)
         assertThat(beforeTiles).containsExactlyInAnyOrderElementsOf(afterTiles)
     }
