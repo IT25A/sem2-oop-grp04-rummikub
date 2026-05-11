@@ -1,8 +1,11 @@
 package hwr.oop.examples.template.core
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 
 class GameTests {
@@ -23,6 +26,19 @@ class GameTests {
             listOf(player1, player2, player3),
             listOf(player1, player2, player3, player4)
         )
+    }
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 5])
+    fun `invalid number of players, exception` (invalidInt: Int){
+        //when
+        val players: List<PlayerId> = (1..invalidInt).map { PlayerId("player$it") }
+        //then
+        assertThatThrownBy {
+            Game.createNewGame(
+                players = players,
+                withJoker = false
+            )
+        }.hasMessageContaining("has to have 2-4 Players")
     }
 
     @ParameterizedTest

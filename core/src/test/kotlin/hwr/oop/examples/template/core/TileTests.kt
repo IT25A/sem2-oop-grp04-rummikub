@@ -74,7 +74,7 @@ class TileTests {
         )
         //when
         val tiles: List<Tile> = allNumbers.map { Tile(color, it) }
-        val points: List<Int> = tiles.map { it.points() }
+        val points: List<Int> = tiles.map { it.number().points() }
         val sum = points.sum()
         //then
         assertThat(sum).isEqualTo(91)

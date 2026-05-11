@@ -5,7 +5,7 @@ class PoolMutable (
     ) {
     fun tiles(): MutableList<Tile> = tiles
     fun draw(): List<Tile> {
-        if (tiles.isEmpty()) throw Exception("Draw pool is empty")
+        if (tiles.isEmpty()) throw Exception("Pool is empty")
         return listOf(tiles.removeFirst())
     }
 }

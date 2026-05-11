@@ -1,5 +1,6 @@
 package hwr.oop.examples.template.core
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class SetTests {
@@ -18,7 +19,19 @@ class SetTests {
     private val playerOneRack = Rack(player1, tiles, false)
 
     @Test
-    fun `create GROUP from rack` () {
+    fun `all set types exist`() {
+        // given
+        val types = SetType.entries
+        // when
+        // then
+        assertThat(types).containsExactlyInAnyOrder(
+            SetType.GROUP,
+            SetType.RUN
+        )
+    }
+
+    @Test
+    fun `valid Group test` () {
 
     }
 

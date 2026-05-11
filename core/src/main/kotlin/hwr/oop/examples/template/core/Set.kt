@@ -2,19 +2,22 @@ package hwr.oop.examples.template.core
 
 data class Set(
     private val tiles: List<Tile>,
-    private val type: SetType = determineSetType(),
     var points: Int = 0,
 ) {
     init {
         require(tiles.size >= 3) {"A meld must contain at least 3 tiles"}
     }
+
+    val type: SetType by lazy { determineSetType() }
+
     fun tiles(): List<Tile> = tiles
     fun type(): SetType = type
-    fun points(): Int = tiles.sumOf { it.points() }
+    fun points(): Int = tiles.sumOf { it.number().points() }
     fun determineSetType(): SetType {
-
+        if (isGroup(tiles)) return SetType.GROUP
+        if (isRun(tiles)) return SetType.RUN
+        else throw IllegalArgumentException("Tiles do not form a valid group or run")
     }
-
     fun isGroup(tiles: List<Tile>): Boolean {
         if (tiles.size !in 3..4) return false
 
@@ -28,7 +31,6 @@ data class Set(
 
         return numbers.size == 1 && colors.size == tiles.size
     }
-
     fun isRun(tiles: List<Tile>): Boolean {
         val jokerCount = tiles.count { it.number() == TileNumber.JOKER && it.color() == TileColor.JOKER }
         val numTiles = tiles.filter { it.number() != TileNumber.JOKER && it.color() != TileColor.JOKER }
@@ -36,7 +38,7 @@ data class Set(
 
         if (colors.size != 1) return false
 
-        val numbers = numTiles.map { it.points()}.sorted()
+        val numbers = numTiles.map { it.number().points() }.sorted()
         val min = numbers.first()
         val max = numbers.last()
 
@@ -47,8 +49,4 @@ data class Set(
         return gaps <= jokerCount
     }
 
-    fun canAdd(set: Set): Boolean {
-
-    }
-    fun addToSet(tile: Tile): Set {}
 }
