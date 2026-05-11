@@ -14,7 +14,7 @@ class Game (
                     }
                 }
             }.shuffled()
-            val pool = Pool(newTiles)
+            val pool = Pool(newTiles.toMutableList())
             return Game(pool)
         }
     }

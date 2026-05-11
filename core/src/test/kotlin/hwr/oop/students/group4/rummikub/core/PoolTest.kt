@@ -25,7 +25,14 @@ class PoolTest {
         val distinct = tiles.distinct()
         //then
         assertThat(distinct).hasSize(52).allMatch { tile -> tiles.count { it == tile } == 2 }
-
+    }
+    @Test
+    fun `drawing from pool`(){
+        val beforeTiles = pool.tiles().toMutableList()
+        val drawnTile = pool.draw()
+        val afterTiles = pool.tiles().toMutableList()
+        afterTiles.add(drawnTile)
+        assertThat(beforeTiles).containsExactlyInAnyOrderElementsOf(afterTiles)
     }
 }
 
