@@ -1,8 +1,7 @@
 package hwr.oop.students.group4.rummikub.core
 
 data class Pool(
-    private val tiles: MutableList<Tile>,
+    private val tiles: List<Tile>,
 ) {
     fun tiles() = tiles
-    fun draw(): Tile = tiles.removeFirst()
-  }
+}
