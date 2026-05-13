@@ -36,7 +36,7 @@ class GameTests {
             Game.createNewGame(
                 players = players,
             )
-        }.hasMessageContaining("has to have 2-4 Players")
+        }.hasMessageContaining("has to have 2-4 players")
     }
 
     @ParameterizedTest
@@ -47,6 +47,7 @@ class GameTests {
         val racks = players.map { game.rackOf(it) }
         //then
         assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
+        assertThat(racks).allMatch { !it.isOpen() }
     }
 
     @ParameterizedTest

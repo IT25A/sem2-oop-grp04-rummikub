@@ -5,5 +5,5 @@ data class Board (
 ) {
     fun sets(): List<Set> = sets
 
-    fun toMutableBoard() = Board(sets.toMutableList())
+    fun toMutableBoard(): BoardMutable = BoardMutable(sets.toMutableList())
 }

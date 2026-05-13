@@ -2,7 +2,7 @@ package hwr.oop.examples.template.core
 
 class BoardMutable (
     private val sets: MutableList<Set>
-) {
+    ) {
     fun sets(): MutableList<Set> = sets
     fun addSet(set: Set) {
         sets.add(set)

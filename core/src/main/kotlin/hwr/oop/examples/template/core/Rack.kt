@@ -7,5 +7,6 @@ data class Rack(
 ) {
     fun owner() : PlayerId = owner
     fun tiles(): List<Tile> = tiles
-    fun opened(): Boolean = opened
+    private fun isOpened(): Boolean = true
+    fun isOpen(): Boolean = opened
 }
