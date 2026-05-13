@@ -5,5 +5,4 @@ enum class TileColor {
     BLUE,
     RED,
     YELLOW,
-    JOKER
 }

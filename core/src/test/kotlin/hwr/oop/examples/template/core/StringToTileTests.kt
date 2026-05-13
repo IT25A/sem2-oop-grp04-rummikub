@@ -26,12 +26,6 @@ class StringToTileTests {
         "yw01, YELLOW, ONE",
         "yW02, YELLOW, TWO",
         "Yw03, YELLOW, THREE",
-        //jokers
-        "JOKR, JOKER, JOKER",
-        "jokr, JOKER, JOKER",
-        "Jokr, JOKER, JOKER",
-        "JOKr, JOKER, JOKER",
-        "joKR, JOKER, JOKER",
     )
     fun `string correctly parsed to Tile`(input: String, color: TileColor, number: TileNumber) {
         //when

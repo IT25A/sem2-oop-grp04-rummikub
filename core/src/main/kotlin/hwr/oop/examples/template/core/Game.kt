@@ -12,9 +12,11 @@ class Game (
         private const val INITIAL_TILES = 14
         private const val MELD_THRESHOLD = 30
 
-        fun createNewGame(players: List<PlayerId>, withJoker: Boolean): Game {
-            require(players.size in 2..4) { "Rummikub has to have 2-4 Players" }
-            val pool = Pool.createShuffledPool(withJoker).toMutablePool()
+        fun createNewGame(
+            players: List<PlayerId>
+        ): Game {
+            require(players.size in 2..4) { "Rummikub has to have 2-4 players" }
+            val pool = Pool.createShuffledPool().toMutablePool()
             val racks = dealRacksInitial(players, pool)
             return Game(racksOfPlayers = racks, pool = pool)
         }

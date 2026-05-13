@@ -10,15 +10,10 @@ object StringToTileConverter {
         require(isNotBlank()) { "Tile must not be blank" }
         require(this.length == 4) {"Tile string must be exactly 4 characters long"}
         val uppercase: String = this.uppercase()
-        return when (uppercase) {
-            "JOKR" -> Tile(TileColor.JOKER, TileNumber.JOKER)
-            else -> {
-                val colorChar = uppercase.take(2)
-                val numberChar = uppercase.takeLast(2)
-                Tile(colors(colorChar), numbers(numberChar))
-            }
-        }
-        }
+        val colorChar = uppercase.take(2)
+        val numberChar = uppercase.takeLast(2)
+        return Tile(colors(colorChar), numbers(numberChar))
+    }
 
     private fun colors(sub: String): TileColor = when (sub) {
         "BK" -> TileColor.BLACK

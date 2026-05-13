@@ -16,7 +16,6 @@ object TileToStringConverter {
             TileColor.BLUE -> return "BL"
             TileColor.RED -> return "RD"
             TileColor.YELLOW -> return "YW"
-            TileColor.JOKER -> return "JO"
         }
     }
 
@@ -35,7 +34,6 @@ object TileToStringConverter {
             TileNumber.ELEVEN -> return "11"
             TileNumber.TWELVE -> return "12"
             TileNumber.THIRTEEN -> return "13"
-            TileNumber.JOKER -> return "KR"
         }
     }
 }

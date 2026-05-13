@@ -16,7 +16,6 @@ class GameTests {
         private val player3 = PlayerId("player3")
         private val player4 = PlayerId("player4")
 
-        private const val POOL_SIZE_WITH_JOKER      = 106
         private const val POOL_SIZE_WITHOUT_JOKER   = 104
         private const val TILES_PER_PLAYER          = 14
 
@@ -36,45 +35,24 @@ class GameTests {
         assertThatThrownBy {
             Game.createNewGame(
                 players = players,
-                withJoker = false
             )
         }.hasMessageContaining("has to have 2-4 Players")
     }
 
     @ParameterizedTest
     @MethodSource("playerCombinations")
-    fun `new Game with Joker, Players all have 14 tiles in Rack`(players: List<PlayerId>) {
-        val game = Game.createNewGame(players = players, withJoker = true)
-        //when
-        val racks = players.map { game.rackOf(it) }
-        //then
-        assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
-    }
-
-    @ParameterizedTest
-    @MethodSource("playerCombinations")
     fun `new Game without Joker, Players all have 14 tiles in Rack`(players: List<PlayerId>) {
-        val game = Game.createNewGame(players = players, withJoker = false)
+        val game = Game.createNewGame(players = players)
         //when
         val racks = players.map { game.rackOf(it) }
         //then
         assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
-    }
-
-    @ParameterizedTest
-    @MethodSource("playerCombinations")
-    fun `new Game with Joker, Pool has appropriate amount of tiles leftover`(players: List<PlayerId>) {
-        val game = Game.createNewGame(players = players, withJoker = true)
-        //when
-        val poolSize = game.pool().tiles().size
-        //then
-        assertThat(poolSize).isEqualTo(POOL_SIZE_WITH_JOKER - (players.size * TILES_PER_PLAYER))
     }
 
     @ParameterizedTest
     @MethodSource("playerCombinations")
     fun `new Game without Joker, Pool has appropriate amount of tiles leftover`(players: List<PlayerId>) {
-        val game = Game.createNewGame(players = players, withJoker = false)
+        val game = Game.createNewGame(players = players)
         //when
         val poolSize = game.pool().tiles().size
         //then
