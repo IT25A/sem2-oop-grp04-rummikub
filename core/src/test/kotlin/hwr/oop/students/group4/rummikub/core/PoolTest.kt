@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PoolTest {
     //given
-    val game = Game.startNewGame()
+    val game = Game()
 
     @Test
     fun `pool without Joker contains 104 tiles`() {
@@ -18,7 +18,7 @@ class PoolTest {
     }
 
     @Test
-    fun `pool without Joker contains each distinct tile twice`(){
+    fun `pool without Joker contains each distinct tile twice`() {
         //when
         val tiles = game.pool().tiles()
         val distinct = tiles.distinct()
@@ -26,8 +26,8 @@ class PoolTest {
         assertThat(distinct).hasSize(52).allMatch { tile -> tiles.count { it == tile } == 2 }
     }
     @Test
-    fun `drawing from pool`(){
-        val game = Game.startNewGame()
+    fun `drawing from pool`() {
+        val game = Game()
         val beforeTiles = game.pool().tiles().toMutableList()
         val drawnTile = game.pool().draw()
         val afterTiles = game.pool().tiles().toMutableList()
