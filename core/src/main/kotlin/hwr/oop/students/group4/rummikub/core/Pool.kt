@@ -10,5 +10,7 @@ data class Pool(
     }.shuffled().toMutableList()
 ) {
     fun tiles() = tiles.toList()
-    fun draw(): Tile = tiles.removeFirst()
+    fun draw(count: Int): List<Tile> {
+
+    }
 }
