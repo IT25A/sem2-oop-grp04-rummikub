@@ -29,9 +29,6 @@ data class Set(
         val min = sortedTiles.first()
         val max = sortedTiles.last()
 
-        val gaps = (min..max).count { it !in sortedTiles } + (tiles.size - (max - min + 1))
-        if (gaps > 1) return false
-
         return (max - min + 1) == tiles.size
     }
     private fun assignType(): SetType {

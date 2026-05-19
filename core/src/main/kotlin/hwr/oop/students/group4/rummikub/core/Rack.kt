@@ -1,12 +1,23 @@
 package hwr.oop.students.group4.rummikub.core
 
-class Rack(
+data class Rack(
     private val playerId: PlayerId,
-    private val tiles: MutableList<Tile>
+    private val tiles: MutableList<Tile>,
+    private var melded: Boolean = false
+
 ) {
+    //Querie
     fun owner() = playerId
     fun tiles() = tiles.toList()
+    fun melded() = melded
+    //
+    fun removeTiles(tilesToRemove: List<Tile>) {
+        //will be called after all sets are checked if exist in rack and valid point amount
+        melded = true
+        tiles.removeAll(tilesToRemove)
+    }
 
-    // TODO: add initial move completed (melded player), true/false toggle
-    // TODO: add(), remove() tile
+    fun addTiles(tilesToAdd: List<Tile>) {
+        tiles.addAll(tilesToAdd)
+    }
 }
