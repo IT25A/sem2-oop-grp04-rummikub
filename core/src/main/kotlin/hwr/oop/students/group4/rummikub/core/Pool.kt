@@ -10,7 +10,11 @@ data class Pool(
     }.shuffled().toMutableList()
 ) {
     fun tiles() = tiles.toList()
-    fun draw(count: Int): List<Tile> {
-
+    fun draw(count: Int): MutableList<Tile> {
+        val rackTiles = mutableListOf<Tile>()
+        repeat(count) {
+            rackTiles.add(tiles.removeFirst())
+        }
+        return rackTiles
     }
 }

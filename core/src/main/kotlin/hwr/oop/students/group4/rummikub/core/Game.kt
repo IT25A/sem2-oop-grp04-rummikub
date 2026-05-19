@@ -1,12 +1,29 @@
 package hwr.oop.students.group4.rummikub.core
 
 class Game (
-    private val gameId: String,
+    //private val gameId: String,
     private val pool: Pool = Pool(),
-    private val players: List<PlayerId>,
     private val rackOfPlayers: List<Rack>,
+    private var currentPlayerIndex: Int = 0,
+    private val currentPlayer: PlayerId = rackOfPlayers[currentPlayerIndex].owner(),
 
 ) {
-    fun pool() = pool
+    companion object {
+        fun createNewGame(players: List<PlayerId>): Game {
+            require(players.size in 2..4) { "Rummikub is always 2-4" }
+            require(players.distinct().size == players.size) { "Players must have different names" }
+            val pool = Pool()
+            val racks = players.map { player -> Rack(player, pool.draw(14).toMutableList()) }
+            return Game(pool, racks)
+        }
+    }
+    //Command
+    fun playTiles(){
 
+    }
+    fun drawTile(){
+
+    }
+    //Queries
+    fun pool() = pool
 }
