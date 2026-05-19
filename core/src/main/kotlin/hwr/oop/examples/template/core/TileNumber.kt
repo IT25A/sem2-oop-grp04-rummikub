@@ -1,7 +1,7 @@
 package hwr.oop.examples.template.core
 
 enum class TileNumber (
-    private val point: Int
+    val point: Int
 ) {
     ONE(1),
     TWO(2),

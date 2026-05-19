@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test
 class PoolTests {
     //given
     private val pool = Pool.createShuffledPool()
+    private val poolMutable = Pool.createShuffledPool().toMutablePool()
+    private val emptyPool = Pool(tiles = emptyList())
+    private val emptyPoolMutable = PoolMutable(tiles = emptyList<Tile>().toMutableList())
 
     @Test
     fun `pool contains 104 tiles`() {

@@ -8,15 +8,16 @@ data class Pool(
     fun toMutablePool(): PoolMutable = PoolMutable(tiles.toMutableList())
 
     companion object {
+        private const val TILE_COPIES = 2
         fun createShuffledPool(): Pool {
-                val tiles = ((1..2).flatMap {
-                    TileColor.entries.flatMap { color ->
-                        TileNumber.entries.map { number ->
-                            Tile(color, number)
-                        }
+            val regularTiles = (1..TILE_COPIES).flatMap {
+                TileColor.entries.flatMap { color ->
+                    TileNumber.entries.map { number ->
+                        Tile(color, number)
                     }
-                })
-                return Pool(tiles.shuffled())
+                }
             }
+            return Pool((regularTiles).shuffled())
         }
+    }
 }

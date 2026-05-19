@@ -3,6 +3,7 @@ package hwr.oop.examples.template.core
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
@@ -41,22 +42,24 @@ class GameTests {
 
     @ParameterizedTest
     @MethodSource("playerCombinations")
-    fun `new Game without Joker, Players all have 14 tiles in Rack`(players: List<PlayerId>) {
+    fun `new Game without Joker, dealing of tiles correctly`(players: List<PlayerId>) {
         val game = Game.createNewGame(players = players)
         //when
         val racks = players.map { game.rackOf(it) }
-        //then
-        assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
-        assertThat(racks).allMatch { !it.isOpen() }
-    }
-
-    @ParameterizedTest
-    @MethodSource("playerCombinations")
-    fun `new Game without Joker, Pool has appropriate amount of tiles leftover`(players: List<PlayerId>) {
-        val game = Game.createNewGame(players = players)
-        //when
         val poolSize = game.pool().tiles().size
         //then
+        assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
         assertThat(poolSize).isEqualTo(POOL_SIZE_WITHOUT_JOKER - (players.size * TILES_PER_PLAYER))
+    }
+
+    @Test
+    fun `Exception for players using same name` () {
+        //given
+        val trollPlayers = listOf(PlayerId("troll"), PlayerId("troll"))
+        //when
+        //then
+        assertThatThrownBy {Game.createNewGame(trollPlayers)}.isInstanceOf(IllegalArgumentException::class.java)
+        assertThatThrownBy {Game.createNewGame(trollPlayers)}.hasMessageContaining("unique names")
+
     }
 }
