@@ -42,6 +42,7 @@ data class Game (
             pool = pool,
             rackOfPlayers = updatedRacks,
             currentPlayerIndex = (currentPlayerIndex + 1) % players().size
+            // currentPlayer does not get set, why?
         )
     }
 
