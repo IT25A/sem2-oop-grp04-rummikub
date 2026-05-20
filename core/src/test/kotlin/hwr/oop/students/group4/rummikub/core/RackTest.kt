@@ -13,7 +13,7 @@ class RackTest {
     fun setUp() {
         // given
         pool = Pool()
-        tiles = (1..14).map { pool.draw() }.toMutableList()
+        tiles = pool.draw(14)
     }
 
     @Test
@@ -52,7 +52,7 @@ class RackTest {
     fun `add tiles to rack`() {
         //given
         val rack = Rack(player, tiles)
-        val tilesToAdd = (1..3).map {pool.draw() }
+        val tilesToAdd = pool.draw(3)
         tiles.addAll(tilesToAdd)
         // when
         rack.addTiles(tilesToAdd)

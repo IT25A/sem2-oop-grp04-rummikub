@@ -17,13 +17,20 @@ class Game (
             return Game(pool, racks)
         }
     }
-    //Command
+    //Commands
+    // later implemented
+    /*
+    
     fun playTiles(){
 
     }
     fun drawTile(){
 
     }
+    */
+    
     //Queries
     fun pool() = pool
+    
+    fun racks() = rackOfPlayers //Added this just for the tests to work, please implement properly and fix tests in PoolTest.kt
 }
