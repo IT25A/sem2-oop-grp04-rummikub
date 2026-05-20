@@ -1,6 +1,6 @@
 package hwr.oop.students.group4.rummikub.core
 
-class Game (
+data class Game (
     //private val gameId: String,
     private val pool: Pool = Pool(),
     private val rackOfPlayers: List<Rack>,
@@ -23,12 +23,28 @@ class Game (
     
     fun playTiles(){
 
-    }
-    fun drawTile(){
-
-    }
     */
-    
+
+    fun drawTile (player: PlayerId): Game {
+        require( player in players() )
+        require(player == currentPlayer) { "Its not ${player.playerId()}'s turn"}
+        require(pool.tiles().isNotEmpty()) { "Pool is empty" }
+        val drawnTile = pool.draw(1)
+
+        val updatedRacks: List<Rack> = rackOfPlayers.map { rack ->
+            if (rack.owner() == player) {
+                rack.addTiles(drawnTile)
+            }   else {
+                rack
+            }
+        }
+        return copy (
+            pool = pool,
+            rackOfPlayers = updatedRacks,
+            currentPlayerIndex = (currentPlayerIndex + 1) % players().size
+        )
+    }
+
     //Queries
     fun pool() = pool
    
@@ -36,6 +52,6 @@ class Game (
         return rackOfPlayers.map { it.owner()  }
     }
    
-    
+    fun rackOfPlayer(playerId: PlayerId): Rack? = rackOfPlayers.find { it.owner() == playerId }
     fun racks() = rackOfPlayers //Added this just for the tests to work, please implement properly and fix tests in PoolTest.kt
 }

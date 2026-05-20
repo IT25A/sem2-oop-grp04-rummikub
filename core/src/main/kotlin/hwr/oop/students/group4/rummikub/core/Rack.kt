@@ -18,7 +18,10 @@ data class Rack(
         tiles.removeAll(tilesToRemove)
     }
 
-    fun addTiles(tilesToAdd: List<Tile>) {
-        tiles.addAll(tilesToAdd)
+    fun addTiles(tilesToAdd: List<Tile>): Rack {
+        return copy(
+            playerId = owner(),
+            tiles = (tilesToAdd + tiles).toMutableList()
+        )
     }
 }

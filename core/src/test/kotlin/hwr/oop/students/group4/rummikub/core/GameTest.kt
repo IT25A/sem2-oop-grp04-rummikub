@@ -64,7 +64,11 @@ class GameTest {
 	
 	@Test
 	fun `draw tile`() {
-	// 
+	    // given
+
+        // when
+
+        // then
 	}
 	
 }
