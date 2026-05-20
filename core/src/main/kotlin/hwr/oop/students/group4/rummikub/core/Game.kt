@@ -13,7 +13,7 @@ class Game (
             require(players.size in 2..4) { "Rummikub is always 2-4" }
             require(players.distinct().size == players.size) { "Players must have different names" }
             val pool = Pool()
-            val racks = players.map { player -> Rack(player, pool.draw(14).toMutableList()) }
+            val racks = players.map { player -> Rack(player, pool.draw(14))}
             return Game(pool, racks)
         }
     }
@@ -31,6 +31,11 @@ class Game (
     
     //Queries
     fun pool() = pool
+   
+    fun players(): List<PlayerId> {
+        return rackOfPlayers.map { it.owner()  }
+    }
+   
     
     fun racks() = rackOfPlayers //Added this just for the tests to work, please implement properly and fix tests in PoolTest.kt
 }

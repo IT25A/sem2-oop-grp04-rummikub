@@ -6,13 +6,14 @@ data class Rack(
     private var melded: Boolean = false
 
 ) {
-    //Querie
+    // Query
     fun owner() = playerId
     fun tiles() = tiles.toList()
     fun melded() = melded
-    //
+    
+    // Commands
     fun removeTiles(tilesToRemove: List<Tile>) {
-        //will be called after all sets are checked if exist in rack and valid point amount
+        // will be called after all sets are checked if exist in rack and valid point amount
         melded = true
         tiles.removeAll(tilesToRemove)
     }
