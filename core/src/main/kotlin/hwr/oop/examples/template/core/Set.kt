@@ -13,7 +13,6 @@ data class Set(
     fun tiles(): List<Tile> = tiles
     fun type(): SetType = type
     fun points(): Int = points
-    fun isValidSet(): Boolean = type == SetType.GROUP || type == SetType.RUN
     private fun determineSetType(tiles: List<Tile>): SetType {
         //val nonJokerTiles = tiles.filterNot { it.number() == TileNumber.JOKER }
         //val numbers: List<Int> = nonJokerTiles.map { it.number().points() }.distinct().sorted()

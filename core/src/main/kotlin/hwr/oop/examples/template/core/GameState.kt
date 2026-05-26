@@ -12,9 +12,9 @@ data class GameState(
     private val pool: Pool,
 ) {
     companion object {
-        fun fromGame(gameId: UUID, game: Game): GameState = GameState(
-            gameId = gameId,
-            status = if (game.isFinished()) GameStatus.FINISHED else GameStatus.IN_PROGRESS,
+        fun fromGame(game: Game): GameState = GameState(
+            gameId = game.id(),
+            status = game.status(),
             currentPlayerId = game.currentPlayer(),
             winnerId = game.winner(),
             table = game.table(),
@@ -23,10 +23,11 @@ data class GameState(
         )
     }
 
-    //queries
+    //Query
     fun gameId(): UUID = gameId
     fun status(): GameStatus = status
     fun currentPlayer(): PlayerId = currentPlayerId
+    fun winner(): PlayerId? = winnerId
     fun table(): Table = table
     fun racks(): List<Rack> = playerRacks
     fun pool(): Pool = pool

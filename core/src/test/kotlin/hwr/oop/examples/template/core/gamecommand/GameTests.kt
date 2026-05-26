@@ -1,15 +1,19 @@
-package hwr.oop.examples.template.core
+package hwr.oop.examples.template.core.gamecommand
 
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatExceptionOfType
-import org.assertj.core.api.Assertions.assertThatThrownBy
+import hwr.oop.examples.template.core.Game
+import hwr.oop.examples.template.core.GameState
+import hwr.oop.examples.template.core.PlayerId
+import hwr.oop.examples.template.core.Pool
+import hwr.oop.examples.template.core.Tile
+import hwr.oop.examples.template.core.TileColor
+import hwr.oop.examples.template.core.TileNumber
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
-import java.util.UUID
 import java.util.stream.Stream
-import kotlin.uuid.Uuid
 
 class GameTests {
 
@@ -36,7 +40,7 @@ class GameTests {
         //when
         val players: List<PlayerId> = (1..invalidInt).map { PlayerId("player$it") }
         //then
-        assertThatThrownBy {
+        Assertions.assertThatThrownBy {
             Game.createNewGame(
                 players = players,
             )
@@ -51,8 +55,8 @@ class GameTests {
         val racks = players.map { game.rackOf(it) }
         val poolSize = game.pool().tiles().size
         //then
-        assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
-        assertThat(poolSize).isEqualTo(POOL_SIZE_WITHOUT_JOKER - (players.size * TILES_PER_PLAYER))
+        Assertions.assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
+        Assertions.assertThat(poolSize).isEqualTo(POOL_SIZE_WITHOUT_JOKER - (players.size * TILES_PER_PLAYER))
     }
 
     @ParameterizedTest
@@ -68,7 +72,7 @@ class GameTests {
         val playerMap = Game.determinePlayerOrder(players = players, Pool(tiles).toMutablePool())
         val playersAfterOrder = playerMap.keys.toList()
         //then
-        assertThat(playersAfterOrder).containsExactlyElementsOf(players.reversed())
+        Assertions.assertThat(playersAfterOrder).containsExactlyElementsOf(players.reversed())
     }
 
     @Test
@@ -77,8 +81,30 @@ class GameTests {
         val trollPlayers = listOf(PlayerId("troll"), PlayerId("troll"))
         //when
         //then
-        assertThatThrownBy {Game.createNewGame(trollPlayers)}.isInstanceOf(IllegalArgumentException::class.java)
-        assertThatThrownBy {Game.createNewGame(trollPlayers)}.hasMessageContaining("unique names")
+        Assertions.assertThatThrownBy { Game.createNewGame(trollPlayers) }.isInstanceOf(IllegalArgumentException::class.java)
+        Assertions.assertThatThrownBy { Game.createNewGame(trollPlayers) }.hasMessageContaining("unique names")
 
     }
+
+    @ParameterizedTest
+    @MethodSource("playerCombinations")
+    fun `Exception rackOf nonexisting player` (players: List<PlayerId>) {
+        val game = Game.createNewGame(players = players)
+        //when
+        val troll = PlayerId("troll")
+        //then
+        assertThrows<NullPointerException> {game.rackOf(troll)}
+    }
+
+    @ParameterizedTest
+    @MethodSource("playerCombinations")
+    fun `game loaded successfully` (players: List<PlayerId>) {
+        val game = Game.createNewGame(players = players)
+        val gameState = GameState.fromGame(game)
+        val loadedGame = Game.loadGame(gameState)
+        //when
+        //then
+        Assertions.assertThat(loadedGame).isEqualTo(game)
+    }
+
 }

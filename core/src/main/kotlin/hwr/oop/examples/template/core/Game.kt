@@ -67,9 +67,7 @@ data class Game(
     }
     //Commands
     fun drawTile(player: PlayerId): Game {
-        require(this.status() != GameStatus.FINISHED) { "Game is finished!" }
-        require(player in players) { "Player ${player.id()} is not in players" }
-        require(player == currentPlayer) { "Player ${player.id()} is not current player, $currentPlayer is." }
+        verifyTurn(player)
         require(pool.tiles().isNotEmpty()) { "Pool $pool is empty!" }
 
         val mutablePool = pool.toMutablePool()
@@ -91,14 +89,12 @@ data class Game(
 
     //TODO: Adjust for Jokers later
     fun playTiles(newTable: Table, player: PlayerId): Game {
-        require(this.status() != GameStatus.FINISHED) { "Game is finished!" }
-        require(player in players) { "Player ${player.id()} is not in players" }
-        require(player == currentPlayer) { "Player ${player.id()} is not current player, $currentPlayer is." }
+        verifyTurn(player)
         require(newTable.isNotEmpty()) { "New Table cannot be empty when playing tiles!" }
 
 
         val newSets: List<Set> = newTable.sets()
-        newSets.forEach { set -> set.isValidSet() }
+        newSets.forEach { set -> set.type() }
         val oldSets: List<Set> = table.sets()
 
         val newTableTiles: List<Tile> = newSets.flatMap { set -> set.tiles() }
@@ -140,7 +136,14 @@ data class Game(
         }
     }
 
+    fun verifyTurn(player: PlayerId) {
+        require(this.status() != GameStatus.FINISHED) { "Game is finished!" }
+        require(player in players) { "Player ${player.id()} is not in players" }
+        require(player == currentPlayer) { "Player ${player.id()} is not current player, $currentPlayer is." }
+    }
+
     //Queries
+    fun id(): UUID = gameId
     fun rackOf(player: PlayerId): Rack = playerRacks.find { it.owner() == player }!!
     fun winner(): PlayerId? = playerRacks.find { it.tiles().isEmpty() }?.owner()
     fun currentPlayer(): PlayerId = currentPlayer
