@@ -1,6 +1,8 @@
 package hwr.oop.examples.template.core
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -18,6 +20,7 @@ class TileTests {
             TileColor.BLUE,
             TileColor.RED,
             TileColor.YELLOW,
+            TileColor.JOKER,
         )
     }
 
@@ -47,8 +50,8 @@ class TileTests {
         //then
         assertThat(tiles).hasSize(allNumbers.size)
             .allMatch { it.color() == color }
-
         assertThat(numbers).containsExactlyInAnyOrderElementsOf(allNumbers)
+        assertFalse(tiles.all { tile -> tile.isJoker() })
     }
     //TO DO: Add JOKER
     @ParameterizedTest
@@ -98,6 +101,7 @@ class TileTests {
             TileNumber.ELEVEN,
             TileNumber.TWELVE,
             TileNumber.THIRTEEN,
+            TileNumber.JOKER
         )
     }
 
@@ -119,5 +123,19 @@ class TileTests {
         //then
         assertThat(tiles).hasSize(allColors.size).allMatch{ it.number() == number }
         assertThat(colors).containsExactlyInAnyOrderElementsOf(allColors)
+        assertFalse(tiles.all { tile -> tile.isJoker() })
+    }
+
+    @Test
+    fun `jokerTiles exist`() {
+        //given
+        val tile = Tile.joker()
+        val tile2 = Tile(TileColor.BLUE, TileNumber.SEVEN)
+        //when
+        //then
+        assertThat(tile.color()).isEqualTo(TileColor.JOKER)
+        assertThat(tile.number()).isEqualTo(TileNumber.JOKER)
+        assertTrue(tile.isJoker())
+        assertFalse(tile2.isJoker())
     }
 }

@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.util.UUID
 import java.util.stream.Stream
+import kotlin.uuid.Uuid
 
 class GameTests {
 
@@ -27,6 +29,7 @@ class GameTests {
             listOf(player1, player2, player3, player4)
         )
     }
+
     @ParameterizedTest
     @ValueSource(ints = [0, 1, 5])
     fun `invalid number of players, exception` (invalidInt: Int){
@@ -50,6 +53,22 @@ class GameTests {
         //then
         assertThat(racks).hasSize(players.size).allMatch { it.tiles().size == TILES_PER_PLAYER }
         assertThat(poolSize).isEqualTo(POOL_SIZE_WITHOUT_JOKER - (players.size * TILES_PER_PLAYER))
+    }
+
+    @ParameterizedTest
+    @MethodSource("playerCombinations")
+    fun `Order of players is correct`(players: List<PlayerId>) {
+        //when
+        val tiles = listOf(
+            Tile(TileColor.BLUE, TileNumber.ONE),
+            Tile(TileColor.BLUE, TileNumber.TWO),
+            Tile(TileColor.BLUE, TileNumber.THREE),
+            Tile(TileColor.BLUE, TileNumber.FOUR),
+        )
+        val playerMap = Game.determinePlayerOrder(players = players, Pool(tiles).toMutablePool())
+        val playersAfterOrder = playerMap.keys.toList()
+        //then
+        assertThat(playersAfterOrder).containsExactlyElementsOf(players.reversed())
     }
 
     @Test

@@ -11,12 +11,14 @@ data class Pool(
         private const val TILE_COPIES = 2
         fun createShuffledPool(): Pool {
             val regularTiles = (1..TILE_COPIES).flatMap {
-                TileColor.entries.flatMap { color ->
-                    TileNumber.entries.map { number ->
-                        Tile(color, number)
+                TileColor.entries.filter { color ->
+                    color != TileColor.JOKER }.flatMap { color ->
+                        TileNumber.entries.filter { number -> number != TileNumber.JOKER }.map { number ->
+                            Tile(color, number)
                     }
                 }
             }
+            //val jokers: List<Tile> = (1..TILE_COPIES).map { Tile.joker() }
             return Pool((regularTiles).shuffled())
         }
     }

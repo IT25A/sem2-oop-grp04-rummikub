@@ -7,8 +7,9 @@ import org.junit.jupiter.api.assertAll
 
 class RackTest {
     //given
-    private val player = PlayerId("player1")
-    private val rack = Rack(player, listOf(
+    private val player1 = PlayerId("player1")
+    private val player2 = PlayerId("player2")
+    private val rack = Rack(player1, listOf(
         Tile(TileColor.BLUE, TileNumber.THIRTEEN),
         Tile(TileColor.RED, TileNumber.THIRTEEN),
         Tile(TileColor.YELLOW, TileNumber.THIRTEEN),

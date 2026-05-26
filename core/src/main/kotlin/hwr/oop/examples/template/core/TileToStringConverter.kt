@@ -1,7 +1,9 @@
 package hwr.oop.examples.template.core
 
 object TileToStringConverter {
-    private fun convert(list: List<Tile>): List<String> = list.map { it.asString() }
+    fun convert(vararg tile: Tile) = convert(tile.toList())
+
+    private fun convert(tileList: List<Tile>): List<String> = tileList.map{ it.asString() }
 
     fun Tile.asString(): String {
         val sb = StringBuilder()
@@ -11,29 +13,31 @@ object TileToStringConverter {
     }
 
     private fun colors(color: TileColor): String {
-        when (color) {
-            TileColor.BLACK -> return "BK"
-            TileColor.BLUE -> return "BL"
-            TileColor.RED -> return "RD"
-            TileColor.YELLOW -> return "YW"
+        return when (color) {
+            TileColor.BLACK -> "BK"
+            TileColor.BLUE -> "BL"
+            TileColor.RED -> "RD"
+            TileColor.YELLOW -> "YW"
+            TileColor.JOKER -> "JO"
         }
     }
 
     private fun numbers(number: TileNumber): String {
-        when (number) {
-            TileNumber.ONE -> return "01"
-            TileNumber.TWO -> return "02"
-            TileNumber.THREE -> return "03"
-            TileNumber.FOUR -> return "04"
-            TileNumber.FIVE -> return "05"
-            TileNumber.SIX -> return "06"
-            TileNumber.SEVEN -> return "07"
-            TileNumber.EIGHT -> return "08"
-            TileNumber.NINE -> return "09"
-            TileNumber.TEN -> return "10"
-            TileNumber.ELEVEN -> return "11"
-            TileNumber.TWELVE -> return "12"
-            TileNumber.THIRTEEN -> return "13"
+        return when (number) {
+            TileNumber.ONE -> "01"
+            TileNumber.TWO -> "02"
+            TileNumber.THREE -> "03"
+            TileNumber.FOUR -> "04"
+            TileNumber.FIVE -> "05"
+            TileNumber.SIX -> "06"
+            TileNumber.SEVEN -> "07"
+            TileNumber.EIGHT -> "08"
+            TileNumber.NINE -> "09"
+            TileNumber.TEN -> "10"
+            TileNumber.ELEVEN -> "11"
+            TileNumber.TWELVE -> "12"
+            TileNumber.THIRTEEN -> "13"
+            TileNumber.JOKER -> "KR"
         }
     }
 }

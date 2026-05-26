@@ -2,6 +2,7 @@ package hwr.oop.examples.template.core
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
@@ -44,7 +45,7 @@ class StringToTileTests {
         "re10",
         "yl13"
     )
-    fun `false colors substring, exemption`(input: String) {
+    fun `false colors substring, exception`(input: String) {
         //when
         //then
         assertThatThrownBy {converter.convert(input)}.isInstanceOf(IllegalArgumentException::class.java)
@@ -58,7 +59,7 @@ class StringToTileTests {
         "rd67",
         "ywT0"
     )
-    fun `false numbers substring, exemption`(input: String) {
+    fun `false numbers substring, exception`(input: String) {
         //when
         //then
         assertThatThrownBy {converter.convert(input)}.isInstanceOf(IllegalArgumentException::class.java)
@@ -76,10 +77,27 @@ class StringToTileTests {
         "RD0001",
         "Yellow13"
     )
-    fun `string not proper length, exemption`(input: String) {
+    fun `string not proper length, exception`(input: String) {
         //when
         //then
         assertThatThrownBy {converter.convert(input)}.isInstanceOf(IllegalArgumentException::class.java)
         assertThatThrownBy {converter.convert(input)}.hasMessageContaining("must be exactly 4 characters long")
+    }
+
+    @Test
+    fun `string blank, exception thrown`() {
+        //when
+        val tileBlank = " "
+        //then
+        assertThatThrownBy {converter.convert(tileBlank)}.isInstanceOf(IllegalArgumentException::class.java)
+        assertThatThrownBy {converter.convert(tileBlank)}.hasMessageContaining("Tile must not be blank")
+    }
+    @Test
+    fun `string empty, exception`() {
+        //when
+        val tileString = ""
+        //then
+        assertThatThrownBy {converter.convert(tileString)}.isInstanceOf(IllegalArgumentException::class.java)
+        assertThatThrownBy {converter.convert(tileString)}.hasMessageContaining("Tile must not be empty")
     }
 }

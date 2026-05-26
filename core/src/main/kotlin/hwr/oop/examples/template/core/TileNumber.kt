@@ -15,7 +15,8 @@ enum class TileNumber (
     TEN(10),
     ELEVEN(11),
     TWELVE(12),
-    THIRTEEN(13);
+    THIRTEEN(13),
+    JOKER(0);
 
     fun points() = point
 }
