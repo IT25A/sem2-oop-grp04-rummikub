@@ -12,10 +12,12 @@ data class Rack(
     fun melded() = melded
     
     // Commands
-    fun removeTiles(tilesToRemove: List<Tile>) {
+    fun removeTiles(tilesToRemove: List<Tile>): Rack {
         // will be called after all sets are checked if exist in rack and valid point amount
         melded = true
-        tiles.removeAll(tilesToRemove)
+        return copy(
+            tiles = (tiles - tilesToRemove).toMutableList(),
+        )
     }
 
     fun addTiles(tilesToAdd: List<Tile>): Rack {

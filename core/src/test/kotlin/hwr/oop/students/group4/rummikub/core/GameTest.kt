@@ -1,6 +1,5 @@
 package hwr.oop.students.group4.rummikub.core
 
-import hwr.oop.students.group4.rummikub.core.Game.Companion.createNewGame
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
@@ -16,24 +15,25 @@ class GameTest {
 		val players = listOf(PlayerId("lonelyGamer"))
 		// when
 		//then
-		assertThatThrownBy{Game.createNewGame(players)}
+		assertThatThrownBy { Game.createNewGame(players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Rummikub is always 2-4")
 	}
+	
 	@Test
 	fun `create game invalid, too many players`() {
 		// given
-		val players = listOf("Elissar", "Melvin", "Ricardo", "Anton", "Boas" ).map { PlayerId(it) }
+		val players = listOf("Elissar", "Melvin", "Ricardo", "Anton", "Boas").map { PlayerId(it) }
 		// when
 		//then
-		assertThatThrownBy{Game.createNewGame(players)}
+		assertThatThrownBy { Game.createNewGame(players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Rummikub is always 2-4")
 	}
 	
 	companion object {
 		@JvmStatic
-		fun streamValidPlayers(): Stream<List<PlayerId>>{
+		fun streamValidPlayers(): Stream<List<PlayerId>> {
 			return Stream.of(
 				listOf(PlayerId("player1"), PlayerId("player2")),
 				listOf(PlayerId("player1"), PlayerId("player2"), PlayerId("player3")),
@@ -53,27 +53,19 @@ class GameTest {
 		//then
 		assertThat(gameObject.players()).containsExactlyInAnyOrder(*players.toTypedArray())
 	}
+	
 	@Test
 	fun `there is only one real anton`() {
 		// given
-		val players = listOf("Anton❤️", "Anton❤️", "Boas" ).map { PlayerId(it) }
+		val players = listOf("Anton❤️", "Anton❤️", "Boas").map { PlayerId(it) }
 		// w/t -hen
-		assertThatThrownBy{Game.createNewGame(players)}
+		assertThatThrownBy { Game.createNewGame(players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
-			.hasMessageContaining("Players must have different names" )
+			.hasMessageContaining("Players must have different names")
 	}
-	
+	// please add assertion tests for the require statements...
 	@Test
-	fun `draw tile`() {
-	    // given
-
-        // when
-
-        // then
-	}
-	
-	@Test
-	fun `player drawing is not part of game`(){
+	fun `player drawing is not part of game`() {
 		// given
 		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
 		val intrudingPlayers = PlayerId("hacker")
@@ -82,6 +74,8 @@ class GameTest {
 			.isInstanceOf(IllegalArgumentException::class.java)
 	}
 	
+	
+	// please put in sepearate test class
 	@Test
 	fun `draw tile out of turn`() {
 		// given
@@ -90,9 +84,9 @@ class GameTest {
 		//when
 		val gameObject = Game.createNewGame(listOf(firstPlayer, secondPlayer))
 		// then
-		assertThatThrownBy{gameObject.drawTile(secondPlayer)}
-		.isInstanceOf(IllegalArgumentException::class.java)
-		.hasMessageContaining("Its not ${secondPlayer.playerId()}'s turn")
+		assertThatThrownBy { gameObject.drawTile(secondPlayer) }
+			.isInstanceOf(IllegalArgumentException::class.java)
+			.hasMessageContaining("Its not ${secondPlayer.playerId()}'s turn")
 	}
 	
 	@Test
@@ -104,12 +98,12 @@ class GameTest {
 			),
 			rackOfPlayers = listOf(
 				Rack(
-					playerId=PlayerId("player1"),
-					tiles=mutableListOf()
+					playerId = PlayerId("player1"),
+					tiles = mutableListOf()
 				),
 				Rack(
 					playerId = PlayerId("player2"),
-					tiles=mutableListOf()
+					tiles = mutableListOf()
 				)
 			),
 			currentPlayerIndex = 0,
@@ -123,7 +117,7 @@ class GameTest {
 	}
 	
 	@Test
-	fun `getting rack of player that is nonexistant`(){
+	fun `getting rack of player that is not there`() {
 		// given
 		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
 		// when
@@ -131,33 +125,23 @@ class GameTest {
 		//then
 		assertThat(game.rackOfPlayer(intrudingPlayers)).isNull()
 	}
-	
+
 	@Test
-	// this test works but rackOfPlayer being Nullable is really shitty, pls replace with exception!
-	// TODO change implementation of rackOfPlayers()
-	fun `draw tile but everything works`(){
+	fun `draw tile into Rack`() {
 		// given
-		val player = PlayerId("player1")
-		val oldGame = createNewGame(listOf(player, PlayerId("player2")))
+		val oldGame = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
+		val tileToBeDrawn = oldGame.pool().tiles().first() // we always draw the first tile -> this is the card which gets drawn
+		val sizeOfOldPool = oldGame.pool().tiles().size
 		// when
-		val newGame =  oldGame.drawTile(player)
-		val drawnTile = newGame.rackOfPlayer(player)?.tiles()?.toMutableList()
-		drawnTile?.removeAll(oldGame.rackOfPlayer(player)?.tiles()?.toList() ?: listOf() )
-		
+		val newGame = oldGame.drawTile(PlayerId("player1"))
+		val newPlayerRack = newGame.rackOfPlayer(PlayerId("player1"))
+		val sizeOfNewPool = newGame.pool().tiles().size
 		// then
-		assertThat(newGame.pool().tiles()).containsExactlyInAnyOrderElementsOf((oldGame.pool().tiles()-drawnTile) as Iterable<Tile?>?) // this cast is needed because of rackOfPlayer being nullable
-		assertThat(
-			newGame.rackOfPlayer(player)
-				?.tiles())
-				.containsExactlyInAnyOrderElementsOf(
-					(oldGame.rackOfPlayer(player)
-						?.tiles()
-						?.plus(
-							drawnTile?.first() ?: mutableListOf<Tile>()
-						)as Iterable<Tile?>?)
-				)
-		// currentPlayerIndex cannot be validated, because there is no .get()-Method available
+		assertThat(newPlayerRack.tiles()).contains(tileToBeDrawn)
+		assertThat(sizeOfOldPool).isEqualTo(sizeOfNewPool + 1)
 	}
-	
+
+	fun `add set to board`()
 	
 }
+

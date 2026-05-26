@@ -6,6 +6,7 @@ data class Game (
     private val rackOfPlayers: List<Rack>,
     private var currentPlayerIndex: Int = 0,
     private val currentPlayer: PlayerId = rackOfPlayers[currentPlayerIndex].owner(),
+    private val board: MutableList<Set> = mutableListOf()
 
 ) {
     companion object {
@@ -18,18 +19,29 @@ data class Game (
         }
     }
     //Commands
-    // later implemented
-    /*
     
-    fun playTiles(){
-
-    */
+    fun addSet(newSets: List<Set>, player: PlayerId) : Game {
+        require(!newSets.any { !SetType.entries.contains(it.type()) }) {"Set is not valid"}
+        require(player == currentPlayer) { "$player is not the current player ($currentPlayer)" }
+        val newBoardState = board + newSets
+        val newPlayerRackState = rackOfPlayer(player).removeTiles(newSets.flatMap { it.tiles() })
+//        val newRacks:List<Rack> = rackOfPlayers.map {
+//            if (it.owner() == player)
+//                newPlayerRackState
+//            else
+//                it
+//        }
+        return copy(
+            board = newBoardState.toMutableList(),
+            //rackOfPlayers = newRacks
+        )
+    }
 
     fun drawTile (player: PlayerId): Game {
         require( player in players() )
         require(player == currentPlayer) { "Its not ${player.playerId()}'s turn"}
         require(pool.tiles().isNotEmpty()) { "Pool is empty" }
-        val drawnTile = pool.draw(1)
+        val drawnTile = pool.draw(1).toList()
 
         val updatedRacks: List<Rack> = rackOfPlayers.map { rack ->
             if (rack.owner() == player) {
@@ -53,6 +65,15 @@ data class Game (
         return rackOfPlayers.map { it.owner()  }
     }
    
-    fun rackOfPlayer(playerId: PlayerId): Rack? = rackOfPlayers.find { it.owner() == playerId }
+    fun rackOfPlayer(playerId: PlayerId): Rack {
+        require(playerId in players())
+        require(playerId == currentPlayer) { "Its not ${playerId.playerId()}'s turn" }
+        return racks().find{ it.owner() == playerId }!!
+    }
+    
     fun racks() = rackOfPlayers //Added this just for the tests to work, please implement properly and fix tests in PoolTest.kt
+    
+    fun board() = board.toList()
+    
+    fun currentPlayer() = currentPlayer
 }

@@ -36,4 +36,6 @@ data class Set(
         if (validateRun(tiles)) return SetType.RUN
         throw IllegalArgumentException ("Set is not valid group or run")
     }
+    
+    fun tiles() = tiles
 }
