@@ -26,10 +26,10 @@ class BoardTest {
 		setToBeAdded.type() //is needed to initialize type.
 		val setList = listOf(setToBeAdded)
 		// when
-		val newGame = oldGame.addSet(newSets = setList, player = playingPlayer)
+		val newGame = oldGame.playTiles(Board(setList), playingPlayer)
 		
 		// then
-		assertThat(newGame.board()).contains(setToBeAdded)
+		assertThat(newGame.board().sets()).contains(setToBeAdded)
 		assertThat(newGame.rackOfPlayer(playingPlayer).tiles())
 			.containsExactlyInAnyOrderElementsOf(
 				oldGame.rackOfPlayer(playingPlayer).tiles()-setToBeAdded.tiles()

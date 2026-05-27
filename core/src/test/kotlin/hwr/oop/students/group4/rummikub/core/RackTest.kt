@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class RackTest {
     private val player: PlayerId = PlayerId("player1")
     private lateinit var pool: Pool
-    private lateinit var tiles: MutableList<Tile>
+    private lateinit var tiles: List<Tile>
 
     @BeforeEach
     fun setUp() {
@@ -39,7 +39,7 @@ class RackTest {
         //given
         val rack = Rack(player, tiles)
         val firstTiles = (1..3).map {
-            tiles.removeFirst()
+            tiles.toMutableList().removeFirst()
         }
         //when
         rack.removeTiles(firstTiles)
@@ -53,7 +53,7 @@ class RackTest {
         //given
         val rack = Rack(player, tiles)
         val tilesToAdd = pool.draw(3)
-        tiles.addAll(tilesToAdd)
+        tiles.toMutableList().addAll(tilesToAdd)
         // when
         rack.addTiles(tilesToAdd)
 

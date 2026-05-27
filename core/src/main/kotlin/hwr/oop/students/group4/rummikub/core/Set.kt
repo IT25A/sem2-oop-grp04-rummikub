@@ -2,15 +2,18 @@ package hwr.oop.students.group4.rummikub.core
 
 data class Set(
     private val tiles: List<Tile>
-
 ) {
     init {
         require(tiles.size >= 3) { "At least 3 tiles" }
     }
+
     private val type: SetType by lazy { assignType() }
-
-    fun type(): SetType = type
-
+    //Commands
+    private fun assignType(): SetType {
+        if (validateGroup(tiles)) return SetType.GROUP
+        if (validateRun(tiles)) return SetType.RUN
+        throw IllegalArgumentException ("Set is not valid group or run")
+    }
     private fun validateGroup(tiles: List<Tile>): Boolean {
         if (tiles.size > 4) return false
         val numbers = tiles.map { it.number() }.distinct()
@@ -31,11 +34,7 @@ data class Set(
 
         return (max - min + 1) == tiles.size
     }
-    private fun assignType(): SetType {
-        if (validateGroup(tiles)) return SetType.GROUP
-        if (validateRun(tiles)) return SetType.RUN
-        throw IllegalArgumentException ("Set is not valid group or run")
-    }
-    
+    //Queries
     fun tiles() = tiles
+    fun type(): SetType = type
 }

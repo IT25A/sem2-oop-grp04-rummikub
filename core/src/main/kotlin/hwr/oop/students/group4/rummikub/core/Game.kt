@@ -1,12 +1,14 @@
 package hwr.oop.students.group4.rummikub.core
 
+import java.time.Year
+
 data class Game (
     //private val gameId: String,
     private val pool: Pool = Pool(),
     private val rackOfPlayers: List<Rack>,
     private var currentPlayerIndex: Int = 0,
     private val currentPlayer: PlayerId = rackOfPlayers[currentPlayerIndex].owner(),
-    private val board: MutableList<Set> = mutableListOf()
+    private val board: Board = Board(),
 
 ) {
     companion object {
@@ -14,32 +16,39 @@ data class Game (
             require(players.size in 2..4) { "Rummikub is always 2-4" }
             require(players.distinct().size == players.size) { "Players must have different names" }
             val pool = Pool()
-            val racks = players.map { player -> Rack(player, pool.draw(14))}
+            val racks = players.map { player -> Rack(player, pool.draw(14).second)}
             return Game(pool, racks)
         }
+
+        //TODO: LoadGame / GetGame (gameState: GameState): Game {}
     }
     //Commands
     
-    fun addSet(newSets: List<Set>, player: PlayerId) : Game {
-        require(!newSets.any { !SetType.entries.contains(it.type()) }) {"Set is not valid"}
-        require(player == currentPlayer) { "$player is not the current player ($currentPlayer)" }
-        val newBoardState = board + newSets
-        val newPlayerRackState = rackOfPlayer(player).removeTiles(newSets.flatMap { it.tiles() })
-//        val newRacks:List<Rack> = rackOfPlayers.map {
-//            if (it.owner() == player)
-//                newPlayerRackState
-//            else
-//                it
-//        }
+    fun playTiles(newBoard: Board, player: PlayerId) : Game {
+        require(newBoard.sets().all { SetType.entries.contains(it.type()) }) {"A set was not valid"}
+        validatePlayer(player)
+
+        val newBoardTiles = newBoard.tiles()
+        val oldBoardTiles = board.tiles()
+        val addedTiles = newBoardTiles.toMutableList().apply { oldBoardTiles.forEach { remove(it) } }.toList()
+
+        val updatedRacks = rackOfPlayers.map { rack ->
+            if (rack.owner() == currentPlayer) {
+                rack.removeTiles(addedTiles)
+            } else {
+                rack
+            }
+        }
+
         return copy(
-            board = newBoardState.toMutableList(),
-            //rackOfPlayers = newRacks
+            board = newBoard,
+            rackOfPlayers = updatedRacks,
+            currentPlayerIndex = nextPlayerIndex()
         )
     }
 
     fun drawTile (player: PlayerId): Game {
-        require( player in players() )
-        require(player == currentPlayer) { "Its not ${player.playerId()}'s turn"}
+        validatePlayer(player)
         require(pool.tiles().isNotEmpty()) { "Pool is empty" }
         val drawnTile = pool.draw(1).toList()
 
@@ -53,9 +62,14 @@ data class Game (
         return copy (
             pool = pool,
             rackOfPlayers = updatedRacks,
-            currentPlayerIndex = (currentPlayerIndex + 1) % players().size
+            currentPlayerIndex = nextPlayerIndex()
             // currentPlayer does not get set, why?
         )
+    }
+
+    fun validatePlayer(player: PlayerId) {
+        require(player in players()){"Player is not in this game"}
+        require(player == currentPlayer) { "Its not ${player.playerId()}'s turn" }
     }
 
     //Queries
@@ -66,14 +80,15 @@ data class Game (
     }
    
     fun rackOfPlayer(playerId: PlayerId): Rack {
-        require(playerId in players())
-        require(playerId == currentPlayer) { "Its not ${playerId.playerId()}'s turn" }
+        validatePlayer(playerId)
         return racks().find{ it.owner() == playerId }!!
     }
     
     fun racks() = rackOfPlayers //Added this just for the tests to work, please implement properly and fix tests in PoolTest.kt
     
-    fun board() = board.toList()
+    fun board() = board
     
     fun currentPlayer() = currentPlayer
+
+    fun nextPlayerIndex() = (currentPlayerIndex + 1) % players().size
 }

@@ -2,28 +2,31 @@ package hwr.oop.students.group4.rummikub.core
 
 data class Rack(
     private val playerId: PlayerId,
-    private val tiles: MutableList<Tile>,
+    private val tiles: List<Tile>,
     private var melded: Boolean = false
 
 ) {
     // Query
     fun owner() = playerId
-    fun tiles() = tiles.toList()
+    fun tiles() = tiles
     fun melded() = melded
     
     // Commands
     fun removeTiles(tilesToRemove: List<Tile>): Rack {
-        // will be called after all sets are checked if exist in rack and valid point amount
         melded = true
-        return copy(
-            tiles = (tiles - tilesToRemove).toMutableList(),
-        )
+        val playerTiles = tiles.toMutableList()
+
+        if ( playerTiles.removeAll(tilesToRemove)) {
+            return copy(tiles = playerTiles)
+        } else {
+            throw IllegalStateException("Player rack does not contain $tilesToRemove")
+        }
     }
 
     fun addTiles(tilesToAdd: List<Tile>): Rack {
         return copy(
             playerId = owner(),
-            tiles = (tilesToAdd + tiles).toMutableList()
+            tiles = (tilesToAdd + tiles)
         )
     }
 }

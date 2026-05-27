@@ -123,7 +123,7 @@ class GameTest {
 		// when
 		val intrudingPlayers = PlayerId("hacker")
 		//then
-		assertThat(game.rackOfPlayer(intrudingPlayers)).isNull()
+		assertThatThrownBy{game.rackOfPlayer(intrudingPlayers)}.hasMessageContaining("Player is not in this game")
 	}
 
 	@Test
@@ -138,10 +138,8 @@ class GameTest {
 		val sizeOfNewPool = newGame.pool().tiles().size
 		// then
 		assertThat(newPlayerRack.tiles()).contains(tileToBeDrawn)
-		assertThat(sizeOfOldPool).isEqualTo(sizeOfNewPool + 1)
+		assertThat(sizeOfOldPool).isEqualTo(sizeOfNewPool+1)
 	}
-
-	fun `add set to board`()
 	
 }
 

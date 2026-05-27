@@ -29,6 +29,8 @@ class Controller : GameApi, GameActionApi {
 		playTilesRequest: @Valid PlayTilesRequest?,
 	): ResponseEntity<GameState> {
 		TODO("Not yet implemented")
+		//game = Game.load(gameId)
+
 	}
 	
 }
