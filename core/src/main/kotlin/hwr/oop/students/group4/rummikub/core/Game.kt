@@ -1,7 +1,5 @@
 package hwr.oop.students.group4.rummikub.core
 
-import java.time.Year
-
 data class Game (
     //private val gameId: String,
     private val pool: Pool = Pool(),
@@ -15,9 +13,9 @@ data class Game (
         fun createNewGame(players: List<PlayerId>): Game {
             require(players.size in 2..4) { "Rummikub is always 2-4" }
             require(players.distinct().size == players.size) { "Players must have different names" }
-            val pool = Pool()
-            val racks = players.map { player -> Rack(player, pool.draw(14).second)}
-            return Game(pool, racks)
+            val pool = Pool().toMutablePool()
+            val racks = players.map { player -> Rack(player, pool.draw(14))}
+            return Game(pool.toPool(), racks)
         }
 
         //TODO: LoadGame / GetGame (gameState: GameState): Game {}
@@ -50,7 +48,8 @@ data class Game (
     fun drawTile (player: PlayerId): Game {
         validatePlayer(player)
         require(pool.tiles().isNotEmpty()) { "Pool is empty" }
-        val drawnTile = pool.draw(1).toList()
+        val newPool = pool.toMutablePool()
+        val drawnTile = newPool.draw(1).toList()
 
         val updatedRacks: List<Rack> = rackOfPlayers.map { rack ->
             if (rack.owner() == player) {
@@ -60,7 +59,7 @@ data class Game (
             }
         }
         return copy (
-            pool = pool,
+            pool = newPool.toPool(),
             rackOfPlayers = updatedRacks,
             currentPlayerIndex = nextPlayerIndex()
             // currentPlayer does not get set, why?

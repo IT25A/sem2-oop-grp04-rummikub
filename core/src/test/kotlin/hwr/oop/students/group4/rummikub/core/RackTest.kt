@@ -6,14 +6,15 @@ import org.junit.jupiter.api.Test
 
 class RackTest {
     private val player: PlayerId = PlayerId("player1")
-    private lateinit var pool: Pool
     private lateinit var tiles: List<Tile>
 
     @BeforeEach
     fun setUp() {
-        // given
-        pool = Pool()
-        tiles = pool.draw(14)
+        tiles = listOf(
+            Tile(TileColor.BLUE, TileNumber.ONE),
+            Tile(TileColor.BLUE, TileNumber.TWO),
+            Tile(TileColor.BLUE, TileNumber.THREE)
+        )
     }
 
     @Test
@@ -52,12 +53,14 @@ class RackTest {
     fun `add tiles to rack`() {
         //given
         val rack = Rack(player, tiles)
-        val tilesToAdd = pool.draw(3)
-        tiles.toMutableList().addAll(tilesToAdd)
+        val tilesToAdd = listOf(Tile(TileColor.BLUE, TileNumber.FOUR))
+
+        val mutableTilesList = tiles.toMutableList()
+        mutableTilesList.addAll(tilesToAdd)
         // when
-        rack.addTiles(tilesToAdd)
+        val newRack = rack.addTiles(tilesToAdd)
 
         //then
-        assertThat(rack.tiles()).containsExactlyInAnyOrderElementsOf(tiles)
+        assertThat(newRack.tiles()).containsExactlyInAnyOrderElementsOf(mutableTilesList)
     }
 }

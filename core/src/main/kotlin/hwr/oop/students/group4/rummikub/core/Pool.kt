@@ -9,13 +9,11 @@ data class Pool(
         }
     }.shuffled()
 ) {
+
+    fun toMutablePool() = MutablePool(tiles.toMutableList())
+
     //Command
-    fun draw(count: Int): Pair<Pool, List<Tile>> {
-        val rackTiles = tiles.subList(0, count)
-        val newPoolTiles = tiles.toMutableList().apply { rackTiles.forEach { remove(it) }
-        }.toList()
-        return Pair(copy(tiles = newPoolTiles), rackTiles)
-    }
+
 
     //Query
     fun tiles() = tiles

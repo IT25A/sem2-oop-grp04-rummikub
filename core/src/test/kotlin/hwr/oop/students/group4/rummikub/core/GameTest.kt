@@ -49,6 +49,7 @@ class GameTest {
 		val players = validPlayers
 		// when
 		val gameObject = Game.createNewGame(players)
+		// TODO: Rack testen, ob richtig erstellt.
 		
 		//then
 		assertThat(gameObject.players()).containsExactlyInAnyOrder(*players.toTypedArray())
