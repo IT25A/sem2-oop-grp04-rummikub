@@ -2,7 +2,7 @@ package hwr.oop.students.group4.rummikub.core
 
 data class Game (
     //private val gameId: String,
-    private val pool: Pool = Pool(),
+    private val pool: Pool,
     private val rackOfPlayers: List<Rack>,
     private var currentPlayerIndex: Int = 0,
     private val currentPlayer: PlayerId = rackOfPlayers[currentPlayerIndex].owner(),
@@ -13,11 +13,10 @@ data class Game (
         fun createNewGame(players: List<PlayerId>): Game {
             require(players.size in 2..4) { "Rummikub is always 2-4" }
             require(players.distinct().size == players.size) { "Players must have different names" }
-            val pool = Pool().toMutablePool()
-            val racks = players.map { player -> Rack(player, pool.draw(14))}
-            return Game(pool.toPool(), racks)
+            val newPool = Pool.createShuffledPool().toMutablePool()
+            val racks = players.map { player -> Rack(player, newPool.draw(14))}
+            return Game(newPool.toPool(), racks)
         }
-
         //TODO: LoadGame / GetGame (gameState: GameState): Game {}
     }
     //Commands
@@ -49,7 +48,7 @@ data class Game (
         validatePlayer(player)
         require(pool.tiles().isNotEmpty()) { "Pool is empty" }
         val newPool = pool.toMutablePool()
-        val drawnTile = newPool.draw(1).toList()
+        val drawnTile = newPool.draw(1)
 
         val updatedRacks: List<Rack> = rackOfPlayers.map { rack ->
             if (rack.owner() == player) {

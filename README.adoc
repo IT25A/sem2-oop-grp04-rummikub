@@ -1,6 +1,4 @@
-= HWR OOP Lecture Project Template
-
-// TODO: Change headline to better fit your project!
+= Rummikub Group 4
 
 This repository contains a student project created for an ongoing lecture on object-oriented programming with Kotlin at HWR Berlin (summer term 2026).
 
@@ -10,6 +8,22 @@ Do not rely on it!
 == Feature Liste
 
 // TODO : Add a list of features that your project implements. This can be a simple bullet list or a tables
+- Game: main class that manages game actions and turns
+- Pool: holds the read-only version of tiles that can be drawn
+- MutablePool: manages the drawing of tiles when called
+- Rack: holds the tiles of the players
+- PlayerId: unique identifier for player, as value class
+- Set: a validator class which represents the sets that players play on the board.
+- SetType: sets can be either RUNS or GROUPS validated in Set
+- Board: holds the sets that players have played
+- Tile: main playing figure for Rummikub
+- TileColor: enum class to distinguish tile color
+    ** BLUE
+    ** BLACK
+    ** RED
+    ** YELLOW
+- TileNumber: enum class to distinguish tile color
+    ** (1-13)
 
 == Modulstruktur
 
