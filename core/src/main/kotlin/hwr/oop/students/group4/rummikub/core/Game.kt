@@ -27,6 +27,8 @@ data class Game (
 
         val newBoardTiles = newBoard.tiles()
         val oldBoardTiles = board.tiles()
+        oldBoardTiles.forEach { oldTile -> require(newBoardTiles.contains(oldTile)) }
+
         val addedTiles = newBoardTiles.toMutableList().apply { oldBoardTiles.forEach { remove(it) } }.toList()
 
         val updatedRacks = rackOfPlayers.map { rack ->
@@ -88,5 +90,5 @@ data class Game (
     
     fun currentPlayer() = currentPlayer
 
-    fun nextPlayerIndex() = (currentPlayerIndex + 1) % players().size
+    fun nextPlayerIndex() = ((currentPlayerIndex + 1) % players().size)
 }
