@@ -39,14 +39,19 @@ class RackTest {
     fun`remove tiles from rack successful`() {
         //given
         val rack = Rack(player, tiles)
-        val firstTiles = (1..3).map {
-            tiles.toMutableList().removeFirst()
-        }
+        val tilesToRemove: List<Tile> = listOf(
+            Tile(TileColor.BLUE, TileNumber.ONE),
+        )
+        val leftoverTiles = listOf(
+            Tile(TileColor.BLUE, TileNumber.TWO),
+            Tile(TileColor.BLUE, TileNumber.THREE)
+        )
         //when
-        rack.removeTiles(firstTiles)
+        val newRack = rack.removeTiles(tilesToRemove)
         //then
-        assertThat(rack.melded()).isTrue
-        assertThat(rack.tiles()).containsExactlyInAnyOrderElementsOf(tiles)
+        assertThat(newRack.melded()).isTrue
+        assertThat(newRack.tiles())
+            .containsExactlyInAnyOrderElementsOf(leftoverTiles)
     }
 
     @Test

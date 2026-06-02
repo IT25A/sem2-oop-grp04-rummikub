@@ -17,23 +17,32 @@ data class Game (
             val racks = players.map { player -> Rack(player, newPool.draw(14))}
             return Game(newPool.toPool(), racks)
         }
-        //TODO: LoadGame / GetGame (gameState: GameState): Game {}
+        //fun loadGame (gameState: GameState): Game {}
     }
     //Commands
     
     fun playTiles(newBoard: Board, player: PlayerId) : Game {
         require(newBoard.sets().all { SetType.entries.contains(it.type()) }) {"A set was not valid"}
         validatePlayer(player)
+        val currentRack = rackOfPlayer(player)
 
         val newBoardTiles = newBoard.tiles()
         val oldBoardTiles = board.tiles()
         oldBoardTiles.forEach { oldTile -> require(newBoardTiles.contains(oldTile)) }
 
         val addedTiles = newBoardTiles.toMutableList().apply { oldBoardTiles.forEach { remove(it) } }.toList()
+        val points = addedTiles.sumOf { it.number().value() }
+
+        require(addedTiles.isNotEmpty()) { "When playing tiles, new ones must be added to the board"}
+        addedTiles.forEach { tile -> require(tile in currentRack.tiles()) { "Tile is not in ${player.playerId()}'s rack" } }
+
+        if (!currentRack.melded()) {
+            require(points >= 30) { "Initial meld requires having 30 or more points" }
+        }
 
         val updatedRacks = rackOfPlayers.map { rack ->
             if (rack.owner() == currentPlayer) {
-                rack.removeTiles(addedTiles)
+                    rack.removeTiles(addedTiles)
             } else {
                 rack
             }
@@ -81,7 +90,7 @@ data class Game (
    
     fun rackOfPlayer(playerId: PlayerId): Rack {
         validatePlayer(playerId)
-        return racks().find{ it.owner() == playerId }!!
+        return rackOfPlayers.find{ it.owner() == playerId }!!
     }
     
     fun racks() = rackOfPlayers //Added this just for the tests to work, please implement properly and fix tests in PoolTest.kt

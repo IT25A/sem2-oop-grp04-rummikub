@@ -190,18 +190,18 @@ class BoardTest {
 //		assertThatThrownBy { game.playTiles(newTable, player1) }.hasMessageContaining("not in ${player1.playerId()}'s rack")
 //	}
 
-//	@Test
-//	fun `playtile failed, invalid meld doesn't have enough points`(){
-//		val game = Game(
-//			rackOfPlayers = listOf(rack1, rack2),
-//			currentPlayerIndex = 1,
-//			board = Board(),
-//			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-//		)
-//		val newTable = Board(listOf<Set>(invalidMeld))
-//		assertThatThrownBy { game.playTiles(newTable, player2) }.isInstanceOf(IllegalArgumentException::class.java)
-//		assertThatThrownBy { game.playTiles(newTable, player2) }.hasMessageContaining("Initial meld requires")
-//	}
+	@Test
+	fun `playtile failed, invalid meld doesn't have enough points`(){
+		val game = Game(
+			rackOfPlayers = listOf(rack1, rack2),
+			currentPlayerIndex = 1,
+			board = Board(),
+			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
+		)
+		val newTable = Board(listOf<Set>(invalidMeld))
+		assertThatThrownBy { game.playTiles(newTable, player2) }.isInstanceOf(IllegalArgumentException::class.java)
+		assertThatThrownBy { game.playTiles(newTable, player2) }.hasMessageContaining("Initial meld requires")
+	}
 
 //	@Test
 //	fun `playtile failed, game is finished`(){
