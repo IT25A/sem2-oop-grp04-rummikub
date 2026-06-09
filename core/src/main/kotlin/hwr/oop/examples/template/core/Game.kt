@@ -86,8 +86,6 @@ data class Game(
             pool= mutablePool.toPool(),
         )
     }
-
-    //TODO: Adjust for Jokers later
     fun playTiles(newTable: Table, player: PlayerId): Game {
         verifyTurn(player)
         require(newTable.isNotEmpty()) { "New Table cannot be empty when playing tiles!" }

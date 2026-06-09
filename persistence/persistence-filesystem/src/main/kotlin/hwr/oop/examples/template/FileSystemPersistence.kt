@@ -1,10 +1,10 @@
 package hwr.oop.examples.template
 
+import hwr.oop.examples.template.core.AppJson
 import hwr.oop.examples.template.core.GameRepository
 import hwr.oop.examples.template.core.GameState
 import kotlinx.serialization.json.Json
 import okio.FileSystem
-import kotlin.io.path.exists
 
 class FileSystemPersistence(
 	configuration: FileSystemPersistenceConfiguration,

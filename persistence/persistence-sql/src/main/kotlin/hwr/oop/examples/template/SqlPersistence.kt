@@ -1,6 +1,7 @@
 package hwr.oop.examples.template
 
 import com.zaxxer.hikari.HikariDataSource
+import hwr.oop.examples.template.core.AppJson
 import hwr.oop.examples.template.core.GameRepository
 import hwr.oop.examples.template.core.GameState
 import liquibase.Liquibase

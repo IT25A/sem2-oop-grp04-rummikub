@@ -7,6 +7,7 @@ data class Tile (
     private val color: TileColor,
     private val number: TileNumber,
 ) {
+    //queries
     fun color(): TileColor = color
     fun number(): TileNumber = number
     fun isJoker(): Boolean = number == TileNumber.JOKER && color == TileColor.JOKER
