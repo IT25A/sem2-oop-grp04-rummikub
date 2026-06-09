@@ -3,7 +3,7 @@ package hwr.oop.examples.template.core
 import java.util.UUID
 
 data class Game(
-    private val gameId: UUID,
+    private val gameId: String,
     private val gameStatus: GameStatus,
     private val playerRacks: List<Rack>,
     private val players: List<PlayerId> = playerRacks.map { it.owner() },
@@ -20,7 +20,7 @@ data class Game(
             require(players.distinct().size == players.size) { "Players must have unique names!" }
             val mutablePool: PoolMutable = Pool.createShuffledPool().toMutablePool()
             val racks = dealRacks(players, mutablePool)
-            val uuid = UUID.randomUUID()
+            val uuid = UUID.randomUUID().toString()
             return Game(
                 gameId= uuid,
                 gameStatus = GameStatus.IN_PROGRESS,
@@ -143,7 +143,7 @@ data class Game(
     }
 
     //Queries
-    fun id(): UUID = gameId
+    fun id(): String = gameId
     fun rackOf(player: PlayerId): Rack = playerRacks.find { it.owner() == player }!!
     fun winner(): PlayerId? = playerRacks.find { it.tiles().isEmpty() }?.owner()
     fun currentPlayer(): PlayerId = currentPlayer

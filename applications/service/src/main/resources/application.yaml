@@ -6,3 +6,8 @@ logging:
     root: INFO
     hwr.oop.examples.template: INFO
     org.jetbrains.exposed: WARN
+
+spring:
+  name: sem2-oop-grp04-rummikub
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml

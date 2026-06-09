@@ -1,5 +1,8 @@
 package hwr.oop.examples.template.core
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Rack(
     private val owner: PlayerId,
     private val tiles: List<Tile>,

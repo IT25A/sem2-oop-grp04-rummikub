@@ -75,7 +75,7 @@ class DrawTileTest {
             Rack(player, rackTiles)
         }
         val game = Game(
-            UUID.randomUUID(),
+            UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = racks,
             currentPlayer = players.first(),
@@ -97,7 +97,7 @@ class DrawTileTest {
             Rack(player, rackTiles)
         }
         val game = Game(
-            UUID.randomUUID(),
+            UUID.randomUUID().toString(),
             gameStatus = GameStatus.FINISHED,
             playerRacks = racks,
             currentPlayer = players.first(),

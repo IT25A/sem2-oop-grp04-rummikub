@@ -1,5 +1,8 @@
 package hwr.oop.examples.template.core
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Table (
     private val sets: List<Set> = emptyList(),
 ) {

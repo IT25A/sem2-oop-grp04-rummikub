@@ -83,7 +83,7 @@ class PlayTileTest {
     fun`playtile meld successful`(){
         //when
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player1,
@@ -105,7 +105,7 @@ class PlayTileTest {
     fun`playtile post-meld manipulation successful, game finished`(){
         //when
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2Alt),
             currentPlayer = player1,
@@ -131,7 +131,7 @@ class PlayTileTest {
     @Test
     fun `playtile failed, player not in players`(){
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player1,
@@ -147,7 +147,7 @@ class PlayTileTest {
     @Test
     fun `playtile failed, player not current player`(){
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player1,
@@ -162,7 +162,7 @@ class PlayTileTest {
     @Test
     fun `playtile failed, new table is empty`(){
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player1,
@@ -177,7 +177,7 @@ class PlayTileTest {
     @Test
     fun `playtile failed, set is invalid`(){
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player1,
@@ -192,7 +192,7 @@ class PlayTileTest {
     @Test
     fun `playtile failed, valid set is not in hand`(){
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player1,
@@ -207,7 +207,7 @@ class PlayTileTest {
     @Test
     fun `playtile failed, invalid meld doesn't have enough points`(){
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player2,
@@ -222,7 +222,7 @@ class PlayTileTest {
     @Test
     fun `playtile failed, game is finished`(){
         val game = Game(
-            gameId = UUID.randomUUID(),
+            gameId = UUID.randomUUID().toString(),
             gameStatus = GameStatus.IN_PROGRESS,
             playerRacks = listOf(rack1, rack2),
             currentPlayer = player1,

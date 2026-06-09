@@ -1,9 +1,11 @@
 package hwr.oop.examples.template.core
 
-import java.util.UUID
+import kotlinx.serialization.Serializable
 
+
+@Serializable
 data class GameState(
-    private val gameId: UUID,
+    private val gameId: String,
     private val status: GameStatus,
     private val currentPlayerId: PlayerId,
     private val winnerId: PlayerId?,
@@ -24,7 +26,7 @@ data class GameState(
     }
 
     //Query
-    fun gameId(): UUID = gameId
+    fun gameId(): String = gameId
     fun status(): GameStatus = status
     fun currentPlayer(): PlayerId = currentPlayerId
     fun winner(): PlayerId? = winnerId
