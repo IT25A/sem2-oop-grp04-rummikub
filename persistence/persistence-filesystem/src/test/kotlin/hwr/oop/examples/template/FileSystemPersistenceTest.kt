@@ -39,7 +39,7 @@ class FileSystemPersistenceTest {
 		val savedGameState = sut.load(gameID)
 		val savedGame = Game.loadGame(savedGameState)
 		// then
-		assertThat(savedGame === game)
+		assertThat(savedGame).isEqualTo(game)
 	}
 
 	@Test
@@ -61,7 +61,5 @@ class FileSystemPersistenceTest {
 		// then
 		assertThatThrownBy {sut.load(null)}.hasMessageContaining("Game ID must be specified")
 	}
-
-
 }
 

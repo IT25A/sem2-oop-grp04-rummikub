@@ -6,14 +6,13 @@ import hwr.oop.examples.template.core.Game
 import hwr.oop.examples.template.core.GameState
 import hwr.oop.examples.template.core.PlayerId
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-
 
 @Testcontainers
 class SqlPersistenceTest {
@@ -38,7 +37,6 @@ class SqlPersistenceTest {
 		dataSource = HikariDataSource(config)
 		adapter = SqlPersistence(dataSource)
 		game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
-
 	}
 	
 	@AfterEach
@@ -49,7 +47,7 @@ class SqlPersistenceTest {
 	}
 	
 	@Test
-	fun `save game successful`() {
+	fun `save game and load game successful`() {
 		// given
 		val gameState = GameState.fromGame(game)
 		val gameId = game.id()
@@ -58,6 +56,25 @@ class SqlPersistenceTest {
 		val savedGameState = adapter.load(gameId)
 		// then
 		assertThat(savedGameState).isEqualTo(gameState)
+	}
+	@Test
+	fun `load game unsuccessful, missing game id`() {
+		// given
+		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")));
+		// when
+		adapter.save(GameState.fromGame(game));
+		// then
+		assertThatThrownBy {adapter.load(null)}.hasMessageContaining("Game ID must be specified")
+	}
+
+	@Test
+	fun `load game unsuccessful`() {
+		// given
+		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")));
+		// when
+		adapter.save(GameState.fromGame(game));
+		// then
+		assertThatThrownBy {adapter.load("trollId")}.hasMessageContaining("Game not found: trollId")
 	}
 	
 }

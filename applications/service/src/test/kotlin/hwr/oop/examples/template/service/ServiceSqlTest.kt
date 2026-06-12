@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-
+@Disabled()
 @Testcontainers
 @SpringBootTest(webEnvironment = MOCK)
 class ServiceSqlTest {

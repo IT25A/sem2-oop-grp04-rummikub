@@ -126,16 +126,19 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers</artifactId>
+      <version>1.21.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>postgresql</artifactId>
+      <version>1.21.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>junit-jupiter</artifactId>
+      <version>1.21.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -149,6 +152,10 @@
         <version>${maven-surefire.version}</version>
         <configuration>
           <workingDirectory>${project.basedir}/../..</workingDirectory>
+          <environmentVariables>
+            <DOCKER_HOST>unix:///Users/ricardovazquez/.docker/run/docker.sock</DOCKER_HOST>
+            <DOCKER_API_VERSION>1.41</DOCKER_API_VERSION>
+          </environmentVariables>
         </configuration>
       </plugin>
 

@@ -40,8 +40,9 @@
     <postgresql.version>42.7.3</postgresql.version>
     <hikari-cp.version>7.0.2</hikari-cp.version>
     <liquibase.version>4.31.0</liquibase.version>
-    <testcontainers.version>1.20.3</testcontainers.version>
-    <testcontainers-postgresql.version>1.20.0</testcontainers-postgresql.version>
+    <testcontainers.version>1.21.4</testcontainers.version>
+    <testcontainers-postgresql.version>1.21.4</testcontainers-postgresql.version>
+    <testcontainers-debug>true</testcontainers-debug>
     <mockk.version>1.13.12</mockk.version>
 
     <!-- Plugin versions -->

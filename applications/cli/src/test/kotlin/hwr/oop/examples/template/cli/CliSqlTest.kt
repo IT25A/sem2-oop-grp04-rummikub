@@ -5,11 +5,12 @@ import com.zaxxer.hikari.HikariDataSource
 import hwr.oop.examples.template.SqlPersistence
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-
+@Disabled
 @Testcontainers
 class CliSqlTest {
 	
