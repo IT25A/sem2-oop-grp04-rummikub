@@ -12,8 +12,7 @@ class FileSystemPersistence(
 ) : GameRepository {
 	private val directory = configuration.directory.toFile().also { it.mkdirs() }
 
-	override fun load(gameId: String?): GameState {
-		requireNotNull(gameId) { "Game ID must be specified" }
+	override fun load(gameId: String): GameState {
 		val file = directory.resolve("$gameId.json")
 		require(file.exists()) { "Game not found: $gameId" }
 		return AppJson.decodeFromString(file.readText())

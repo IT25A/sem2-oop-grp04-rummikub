@@ -57,15 +57,6 @@ class SqlPersistenceTest {
 		// then
 		assertThat(savedGameState).isEqualTo(gameState)
 	}
-	@Test
-	fun `load game unsuccessful, missing game id`() {
-		// given
-		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")));
-		// when
-		adapter.save(GameState.fromGame(game));
-		// then
-		assertThatThrownBy {adapter.load(null)}.hasMessageContaining("Game ID must be specified")
-	}
 
 	@Test
 	fun `load game unsuccessful`() {

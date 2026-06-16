@@ -51,15 +51,5 @@ class FileSystemPersistenceTest {
 		// then
 		assertThatThrownBy {sut.load("trollId")}.hasMessageContaining("Game not found: trollId")
 	}
-
-	@Test
-	fun `load game unsuccessful, missing game id`() {
-		// given
-		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")));
-		// when
-		sut.save(GameState.fromGame(game));
-		// then
-		assertThatThrownBy {sut.load(null)}.hasMessageContaining("Game ID must be specified")
-	}
 }
 

@@ -48,8 +48,7 @@ class SqlPersistence(private val dataSource: DataSource) : GameRepository {
 		}
 	}
 
-	override fun load(gameId: String?): GameState {
-		requireNotNull(gameId) { "Game ID must be specified." }
+	override fun load(gameId: String): GameState {
 		dataSource.connection.use { connection ->
 			connection.prepareStatement(
 				"""
