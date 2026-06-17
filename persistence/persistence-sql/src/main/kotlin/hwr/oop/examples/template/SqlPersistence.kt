@@ -48,7 +48,11 @@ class SqlPersistence(private val dataSource: DataSource) : GameRepository {
 		}
 	}
 
-	override fun load(gameId: String): GameState {
+	override fun load(gameId: String?): GameState {
+		require(gameId != null) { "Game Id must not be null" }
+		require(gameId.isNotEmpty()) { "Game Id must not be empty" }
+		require(gameId.isNotBlank()) { "Game Id must not be blank" }
+
 		dataSource.connection.use { connection ->
 			connection.prepareStatement(
 				"""

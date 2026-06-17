@@ -9,6 +9,7 @@ import hwr.oop.examples.template.SqlPersistence
 import hwr.oop.examples.template.config.AppConfig
 import hwr.oop.examples.template.config.ConfigLoader
 import hwr.oop.examples.template.config.PersistenceType
+import kotlinx.serialization.json.Json
 import okio.Path.Companion.toPath
 
 class ExampleBaseCommand : CliktCommand(name = "example") {
@@ -18,6 +19,8 @@ class ExampleBaseCommand : CliktCommand(name = "example") {
 fun main(args: Array<String>) {
 	val appConfig = ConfigLoader.load()
 	val persistence = buildPersistence(appConfig)
+	val json = Json{ prettyPrint = true}
+
 	ExampleBaseCommand()
 		.subcommands(
 			StartGameCommand(),

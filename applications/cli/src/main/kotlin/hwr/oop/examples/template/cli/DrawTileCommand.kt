@@ -9,5 +9,6 @@ class DrawTileCommand : CliktCommand(name = "drawTile") {
 	private val gameId by requireObject<String>()
 	private val playerId by option("--player-id", help = "The ID of the player drawing a tile.").required()
 	
-	override fun run(): Unit = TODO()
+	override fun run(): Unit {
+	}
 }
