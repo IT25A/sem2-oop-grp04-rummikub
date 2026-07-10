@@ -2,14 +2,12 @@ package hwr.oop.examples.template
 
 import hwr.oop.students.group4.rummikub.core.Game
 import hwr.oop.students.group4.rummikub.core.PlayerId
-import okio.FileSystem
 import okio.Path.Companion.toPath
 import okio.fakefilesystem.FakeFileSystem
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class FileSystemPersistenceTest {
 	
@@ -30,26 +28,23 @@ class FileSystemPersistenceTest {
 		fakeFileSystem.checkNoOpenFiles()
 	}
 
+	private val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
+	private val gameId = game.id()
+
 	@Test
-	fun `save game and load game successfully`() {
-		// given
-		val newGame = Game.createNewGame(listOf(PlayerId("player 1"), PlayerId("player 2")))
-		val gameId = newGame.gameId()
-		// when
-		sut.save(newGame)
-		val loadedGame= sut.load(gameId)
-		// then
-		assertThat(loadedGame).isEqualTo(newGame)
+	fun `load successful in filesystem`() {
+		//when
+		sut.save(game)
+		val loaded = sut.loadById(gameId)
+
+		//then
+		assertThat(loaded).isEqualTo(game)
 	}
 
 	@Test
-	fun `load game unsuccessfully`() {
-		//given
-		val newGame = Game.createNewGame(listOf(PlayerId("player 1"), PlayerId("player 2")))
-		val gameId = "fake Game ID"
-		//when
-		//then
-		assertThatThrownBy{sut.load(gameId)}.hasMessageContaining("Game with id: $gameId not found" )
+	fun `load game unsuccesful, exception thrown`() {
+		assertThatThrownBy { sut.loadById(gameId) }
+			.hasMessageContaining("Could not load game", gameId.toString())
 	}
 
 	}

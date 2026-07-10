@@ -1,8 +1,8 @@
 --liquibase formatted sql
 
 --changeset system:1 dbms:postgresql
-CREATE TABLE IF NOT EXISTS "games"
+CREATE TABLE IF NOT EXISTS "rummikub_games"
  (
-	 "id"       TEXT PRIMARY KEY,
- 	 "game"     JSONB NOT NULL
+     id     UUID PRIMARY KEY,
+     game   JSONB NOT NULL
  );

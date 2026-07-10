@@ -16,7 +16,7 @@ class InMemoryPersistenceTest {
         //when
         persistence.save(gameObject)
         //then
-        assertThat(gameObject).isEqualTo(persistence.load(gameObject.gameId()))
+        assertThat(gameObject).isEqualTo(persistence.loadById(gameObject.id()))
     }
 
     @Test
@@ -25,7 +25,7 @@ class InMemoryPersistenceTest {
         val gameObject = Game.createNewGame(listOf(PlayerId("Pooky"), PlayerId("Pooky2")))
         val persistence = InMemoryPersistence.createWithGames(listOf(gameObject))
         // when
-        val loadedGame = persistence.load(gameObject.gameId())
+        val loadedGame = persistence.loadById(gameObject.id())
         // then
         assertThat(loadedGame).isEqualTo(gameObject)
     }

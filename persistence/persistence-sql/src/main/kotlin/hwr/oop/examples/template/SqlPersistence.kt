@@ -2,8 +2,9 @@ package hwr.oop.examples.template
 
 import com.zaxxer.hikari.HikariDataSource
 import hwr.oop.students.group4.rummikub.core.Game
-import hwr.oop.students.group4.rummikub.core.Persistence
-import kotlinx.serialization.json.Json
+import hwr.oop.students.group4.rummikub.core.GameId
+import hwr.oop.ports.out.GameRepository
+import hwr.oop.ports.out.LoadGameByIdPort
 import liquibase.Liquibase
 import liquibase.Scope
 import liquibase.database.DatabaseFactory
@@ -11,10 +12,14 @@ import liquibase.database.jvm.JdbcConnection
 import liquibase.logging.core.NoOpLogService
 import liquibase.resource.ClassLoaderResourceAccessor
 import liquibase.ui.LoggerUIService
+import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.Database
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.select
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import javax.sql.DataSource
 
-class SqlPersistence(private val dataSource: DataSource) : Persistence {
+class SqlPersistence(private val dataSource: DataSource) : GameRepository {
 	
 	constructor(jdbcUrl: String, username: String, password: String) : this(
 		HikariDataSource().apply {
@@ -48,37 +53,25 @@ class SqlPersistence(private val dataSource: DataSource) : Persistence {
 		}
 	}
 
-	val json = Json { prettyPrint = true }
-
 	override fun save(game: Game) {
-		val json = json.encodeToString(game)
-		dataSource.connection.use { connection ->
-			connection.prepareStatement(
-				"""
-				INSERT INTO games (id, game) VALUES (?, ?::jsonb)
-				ON CONFLICT (id) DO UPDATE SET game = EXCLUDED.game
-				""".trimIndent()
-			).use { preparedStatement ->
-				preparedStatement.setString(1, game.gameId())
-				preparedStatement.setString(2, json)
-				preparedStatement.executeUpdate()
+		val gameId = game.id()
+		transaction {
+			RummikubGamesTable.insert {
+				it[id] = gameId.uuid()
+				it[this.game] = game
 			}
 		}
 	}
 
-	override fun load(gameId: String): Game {
-		dataSource.connection.use { connection ->
-			connection.prepareStatement(
-				"""
-				SELECT game FROM games WHERE id = ?
-				""".trimIndent()
-			).use { preparedStatement ->
-				preparedStatement.setString(1, gameId)
-				val response = preparedStatement.executeQuery()
-				check(response.next()) { "Game not found: $gameId" }
-				return json.decodeFromString(response.getString("game"))
-			}
+	override fun loadById(gameId: GameId): Game {
+		val javaUUID = gameId.uuid()
+		val result = transaction {
+			RummikubGamesTable.select(RummikubGamesTable.game)
+				.where{ RummikubGamesTable.id eq javaUUID }.withDistinct()
+				.map {it[RummikubGamesTable.game]}
+				.firstOrNull()
 		}
+		return result ?: throw LoadGameByIdPort.CouldNotLoadException(gameId)
 	}
 	
 }

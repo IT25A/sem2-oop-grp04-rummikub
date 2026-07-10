@@ -12,6 +12,7 @@ data class Set(
         require(tiles.size >= 3) { "At least 3 tiles" }
         if (validateGroup(tiles)) return SetType.GROUP
         if (validateRun(tiles)) return SetType.RUN
+        // IllegalSetException Custom made
         throw IllegalArgumentException ("Set is not valid group or run")
     }
     private fun validateGroup(tiles: List<Tile>): Boolean {

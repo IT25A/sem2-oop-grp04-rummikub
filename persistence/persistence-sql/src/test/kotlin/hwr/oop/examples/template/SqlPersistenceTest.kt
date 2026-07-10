@@ -9,6 +9,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import hwr.oop.students.group4.rummikub.core.Game
+import hwr.oop.students.group4.rummikub.core.GameId
 import hwr.oop.students.group4.rummikub.core.PlayerId
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -48,7 +49,7 @@ class SqlPersistenceTest {
 	fun `save game and load game successfully`() {
 		// given
 		val newGame = Game.createNewGame(listOf(PlayerId("player 1"), PlayerId("player 2")))
-		val gameId = newGame.gameId()
+		val gameId = newGame.id()
 
 		// when
 		adapter.save(newGame)
@@ -60,7 +61,7 @@ class SqlPersistenceTest {
 	@Test
 	fun `load game unsuccessfully`() {
 		// given
-		val gameId = "fake Game ID"
+		val gameId = GameId("fake Game ID")
 
 		// when
 		// then

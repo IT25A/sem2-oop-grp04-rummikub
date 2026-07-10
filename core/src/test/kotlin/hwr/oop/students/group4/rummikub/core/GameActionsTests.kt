@@ -90,7 +90,6 @@ class GameActionsTests {
 			board = Board(),
 			currentPlayer = player1,
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf(set1))
 		val updatedGame = game.playTiles(newTable, player1)
@@ -111,7 +110,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable1 = Board(listOf(set1))
 		val firstTurn = game.playTiles(newTable1, player1)
@@ -135,7 +133,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf(set1))
 		val troll = PlayerId("troll")
@@ -150,7 +147,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf(set1))
 		assertThatThrownBy { game.playTiles(newTable, player2) }.isInstanceOf(IllegalArgumentException::class.java)
@@ -164,7 +160,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf())
 		assertThatThrownBy { game.playTiles(newTable, player1) }.isInstanceOf(IllegalArgumentException::class.java)
@@ -178,7 +173,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf(invalidSet))
 		assertThatThrownBy { game.playTiles(newTable, player1) }.isInstanceOf(IllegalArgumentException::class.java)
@@ -192,7 +186,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf(set2))
 		assertThatThrownBy { game.playTiles(newTable, player1) }.isInstanceOf(IllegalArgumentException::class.java)
@@ -206,7 +199,6 @@ class GameActionsTests {
 			currentPlayer = player2,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf(invalidMeld))
 		assertFalse(game.rackOf(player2).melded())
@@ -223,7 +215,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 			gameStatus = GameStatus.FINISHED,
 		)
 		val newTable = Board(listOf(invalidMeld))
@@ -238,7 +229,6 @@ class GameActionsTests {
 			currentPlayer = player1,
 			board = Board(),
 			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
-			gameId = UUID.randomUUID().toString(),
 		)
 		val newTable = Board(listOf(set1Alt, set3))
 		val turnOne = game.playTiles(newTable, player1)

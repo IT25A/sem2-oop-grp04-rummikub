@@ -110,7 +110,6 @@ class GamesTest {
 				)
 			),
 			currentPlayer = PlayerId("player1"),
-			gameId = UUID.randomUUID().toString()
 		)
 		
 		// w/t -hen
@@ -148,18 +147,19 @@ class GamesTest {
 
 	@Test
 	fun `gameId query returns String`() {
+		val gameId = GameId.random()
 		//given
 		val game = Game(
-			gameId = "testgame",
+			gameId = gameId,
 			pool = Pool(listOf()),
 			racks = listOf(),
 			currentPlayer = PlayerId("player1"),
 			gameStatus = GameStatus.IN_PROGRESS,
 		)
 		//when
-		val id = game.gameId()
+		val id = game.id()
 		//then
-		assertThat(id).isEqualTo("testgame")
+		assertThat(id).isEqualTo(gameId)
 	}
 }
 
