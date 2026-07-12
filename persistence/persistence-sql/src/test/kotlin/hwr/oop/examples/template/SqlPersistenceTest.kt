@@ -49,7 +49,7 @@ class SqlPersistenceTest {
 	@Test
 	fun `save game and load game successfully`() {
 		// given
-		val gameId = GameId("1111")
+		val gameId = GameId("11111111-1111-1111-1111-111111111111")
 		val newGame = Game.createNewGame(
 			gameId,
 			listOf(PlayerId("player 1"), PlayerId("player 2"))
