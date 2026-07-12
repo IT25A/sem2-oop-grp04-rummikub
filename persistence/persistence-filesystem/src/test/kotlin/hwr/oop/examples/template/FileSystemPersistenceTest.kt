@@ -28,7 +28,7 @@ class FileSystemPersistenceTest {
 		fakeFileSystem.checkNoOpenFiles()
 	}
 
-	private val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
+	private val game = Game.createNewGame(players = listOf(PlayerId("player1"), PlayerId("player2")))
 	private val gameId = game.id()
 
 	@Test
@@ -42,7 +42,7 @@ class FileSystemPersistenceTest {
 	}
 
 	@Test
-	fun `load game unsuccesful, exception thrown`() {
+	fun `load game unsuccessful, exception thrown`() {
 		assertThatThrownBy { sut.loadById(gameId) }
 			.hasMessageContaining("Could not load game", gameId.toString())
 	}

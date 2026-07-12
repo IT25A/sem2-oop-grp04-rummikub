@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import java.util.UUID
 import java.util.stream.Stream
 
 class GamesTest {
@@ -27,7 +26,7 @@ class GamesTest {
 		val players = listOf(PlayerId("lonelyGamer"))
 		// when
 		//then
-		assertThatThrownBy { Game.createNewGame(players) }
+		assertThatThrownBy { Game.createNewGame(players = players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Rummikub is always 2-4")
 	}
@@ -38,7 +37,7 @@ class GamesTest {
 		val players = listOf("Elissar", "Melvin", "Ricardo", "Anton", "Boas").map { PlayerId(it) }
 		// when
 		//then
-		assertThatThrownBy { Game.createNewGame(players) }
+		assertThatThrownBy { Game.createNewGame(players = players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Rummikub is always 2-4")
 	}
@@ -48,7 +47,7 @@ class GamesTest {
 		// given
 		val players = listOf("Anton❤️", "Anton❤️", "Boas").map { PlayerId(it) }
 		// w/t -hen
-		assertThatThrownBy { Game.createNewGame(players) }
+		assertThatThrownBy { Game.createNewGame(players = players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Players must have different names")
 	}
@@ -59,7 +58,7 @@ class GamesTest {
 		// given
 		val players = validPlayers
 		// when
-		val game = Game.createNewGame(players)
+		val game = Game.createNewGame(players = players)
 		
 		//then
 		assertThat(game.players()).containsExactlyInAnyOrder(*players.toTypedArray())
@@ -72,7 +71,7 @@ class GamesTest {
 	@MethodSource("streamValidPlayers")
 	fun `player drawing is not part of game`(validPlayers: List<PlayerId>) {
 		// given
-		val game = Game.createNewGame(validPlayers)
+		val game = Game.createNewGame(players = validPlayers)
 		val intrudingPlayer = PlayerId("intruder")
 		// w/t -hen
 		assertThatThrownBy { game.drawTile(intrudingPlayer) }
@@ -86,7 +85,7 @@ class GamesTest {
 		// given
 		val secondPlayer = validPlayers[1]
 		//when
-		val gameObject = Game.createNewGame(validPlayers)
+		val gameObject = Game.createNewGame(players = validPlayers)
 		// then
 
 		assertThatThrownBy { gameObject.drawTile(secondPlayer) }
@@ -122,7 +121,7 @@ class GamesTest {
 	@MethodSource("streamValidPlayers")
 	fun `drawing tile is successful`(validPlayers: List<PlayerId>) {
 		// given
-		val game = Game.createNewGame(validPlayers)
+		val game = Game.createNewGame(players = validPlayers)
 		val pool = game.pool()
 		val tileToBeDrawn = pool.tiles().first()
 
@@ -138,7 +137,7 @@ class GamesTest {
 	@Test
 	fun `getting rack of player that is not there`() {
 		// given
-		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
+		val game = Game.createNewGame(players = listOf(PlayerId("player1"), PlayerId("player2")))
 		// when
 		val intrudingPlayers = PlayerId("hacker")
 		//then

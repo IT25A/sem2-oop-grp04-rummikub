@@ -11,7 +11,7 @@ class InMemoryPersistenceTest {
     @Test
     fun `save game`() {
         //given
-        val gameObject = Game.createNewGame(listOf(PlayerId("Pooky"), PlayerId("Pooky2")))
+        val gameObject = Game.createNewGame(players = listOf(PlayerId("Pooky"), PlayerId("Pooky2")))
         val persistence = InMemoryPersistence.createEmptyStore()
         //when
         persistence.save(gameObject)
@@ -22,7 +22,7 @@ class InMemoryPersistenceTest {
     @Test
     fun `load game`() {
         // given
-        val gameObject = Game.createNewGame(listOf(PlayerId("Pooky"), PlayerId("Pooky2")))
+        val gameObject = Game.createNewGame(players = listOf(PlayerId("Pooky"), PlayerId("Pooky2")))
         val persistence = InMemoryPersistence.createWithGames(listOf(gameObject))
         // when
         val loadedGame = persistence.loadById(gameObject.id())

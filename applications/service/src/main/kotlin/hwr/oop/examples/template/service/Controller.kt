@@ -11,20 +11,21 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class Controller(
-	private val persistence: GameRepository,
+//	private val persistence: GameRepository,
 ) : GameApi, GameActionApi {
 	override fun getGame(gameId: String?): ResponseEntity<GameState> {
 		//Statt ein require Throw exception with handler
 		require(gameId != null) { "Game ID is null" }
-		val loadedGame = persistence.loadById(GameId(gameId))
+/*		val loadedGame = persistence.loadById(GameId(gameId))
 		val gameState = GameState(
 			// game id
 			loadedGame.id()
 		)
 
 		return ResponseEntity.ok(gameState)
+*/		return ResponseEntity.ok(null)
 	}
-	
+
 	override fun startGame(startGameRequest: @Valid StartGameRequest?): ResponseEntity<GameCreatedResponse> {
 		TODO("Not yet implemented")
 	}
