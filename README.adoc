@@ -29,6 +29,8 @@ Do not rely on it!
     ** YELLOW
 - TileNumber: enum class to distinguish tile number and points
     ** (1-13)
+- CLI Shell: interactive command-line interface to play and interact with the Rummikub game directly via the terminal
+- Persistence Architecture: implementation of inbound and outbound adapters to support filesystem-based and SQL-based database persistence for saving and loading game states
 
 == Modulstruktur
 
