@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-class GameTest {
+class GamesTest {
 
 	companion object {
 		@JvmStatic
@@ -26,7 +26,7 @@ class GameTest {
 		val players = listOf(PlayerId("lonelyGamer"))
 		// when
 		//then
-		assertThatThrownBy { Game.createNewGame(players) }
+		assertThatThrownBy { Game.createNewGame(players = players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Rummikub is always 2-4")
 	}
@@ -37,7 +37,7 @@ class GameTest {
 		val players = listOf("Elissar", "Melvin", "Ricardo", "Anton", "Boas").map { PlayerId(it) }
 		// when
 		//then
-		assertThatThrownBy { Game.createNewGame(players) }
+		assertThatThrownBy { Game.createNewGame(players = players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Rummikub is always 2-4")
 	}
@@ -47,7 +47,7 @@ class GameTest {
 		// given
 		val players = listOf("Anton❤️", "Anton❤️", "Boas").map { PlayerId(it) }
 		// w/t -hen
-		assertThatThrownBy { Game.createNewGame(players) }
+		assertThatThrownBy { Game.createNewGame(players = players) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Players must have different names")
 	}
@@ -58,10 +58,11 @@ class GameTest {
 		// given
 		val players = validPlayers
 		// when
-		val game = Game.createNewGame(players)
+		val game = Game.createNewGame(players = players)
 		
 		//then
 		assertThat(game.players()).containsExactlyInAnyOrder(*players.toTypedArray())
+		assertThat(game.racks()).isNotEmpty()
 		game.racks().forEach { assertThat(it.tiles()).hasSize(14) }
 		assertThat(game.pool().tiles()).hasSize(104 - 14 * players.size)
 	}
@@ -70,7 +71,7 @@ class GameTest {
 	@MethodSource("streamValidPlayers")
 	fun `player drawing is not part of game`(validPlayers: List<PlayerId>) {
 		// given
-		val game = Game.createNewGame(validPlayers)
+		val game = Game.createNewGame(players = validPlayers)
 		val intrudingPlayer = PlayerId("intruder")
 		// w/t -hen
 		assertThatThrownBy { game.drawTile(intrudingPlayer) }
@@ -84,8 +85,9 @@ class GameTest {
 		// given
 		val secondPlayer = validPlayers[1]
 		//when
-		val gameObject = Game.createNewGame(validPlayers)
+		val gameObject = Game.createNewGame(players = validPlayers)
 		// then
+
 		assertThatThrownBy { gameObject.drawTile(secondPlayer) }
 			.isInstanceOf(IllegalArgumentException::class.java)
 			.hasMessageContaining("Its not ${secondPlayer.playerId()}'s turn")
@@ -96,7 +98,7 @@ class GameTest {
 		// given
 		val game = Game(
 			pool = Pool( listOf()),
-			rackOfPlayers = listOf(
+			racks = listOf(
 				Rack(
 					playerId = PlayerId("player1"),
 					tiles = mutableListOf()
@@ -106,8 +108,7 @@ class GameTest {
 					tiles = mutableListOf()
 				)
 			),
-			currentPlayerIndex = 0,
-			currentPlayer = PlayerId("player1")
+			currentPlayer = PlayerId("player1"),
 		)
 		
 		// w/t -hen
@@ -120,14 +121,15 @@ class GameTest {
 	@MethodSource("streamValidPlayers")
 	fun `drawing tile is successful`(validPlayers: List<PlayerId>) {
 		// given
-		val game = Game.createNewGame(validPlayers)
+		val game = Game.createNewGame(players = validPlayers)
 		val pool = game.pool()
 		val tileToBeDrawn = pool.tiles().first()
 
 
 		val newGame = game.drawTile(game.currentPlayer())
-		val newPlayerRack = newGame.rackOfPlayer(game.currentPlayer())
+		val newPlayerRack = newGame.rackOf(game.currentPlayer())
 		// then
+		assertThat(newPlayerRack).isNotNull()
 		assertThat(newPlayerRack.tiles()).contains(tileToBeDrawn)
 		assertThat(newGame.pool().tiles()).hasSize(pool.tiles().size - 1)
 	}
@@ -135,11 +137,28 @@ class GameTest {
 	@Test
 	fun `getting rack of player that is not there`() {
 		// given
-		val game = Game.createNewGame(listOf(PlayerId("player1"), PlayerId("player2")))
+		val game = Game.createNewGame(players = listOf(PlayerId("player1"), PlayerId("player2")))
 		// when
 		val intrudingPlayers = PlayerId("hacker")
 		//then
-		assertThatThrownBy{game.rackOfPlayer(intrudingPlayers)}.hasMessageContaining("Player is not in this game")
+		assertThatThrownBy{game.rackOf(intrudingPlayers)}.hasMessageContaining("Player is not in this game")
+	}
+
+	@Test
+	fun `gameId query returns String`() {
+		val gameId = GameId.random()
+		//given
+		val game = Game(
+			gameId = gameId,
+			pool = Pool(listOf()),
+			racks = listOf(),
+			currentPlayer = PlayerId("player1"),
+			gameStatus = GameStatus.IN_PROGRESS,
+		)
+		//when
+		val id = game.id()
+		//then
+		assertThat(id).isEqualTo(gameId)
 	}
 }
 

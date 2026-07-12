@@ -9,12 +9,17 @@ Do not rely on it!
 
 // TODO : Add a list of features that your project implements. This can be a simple bullet list or a tables
 - Game: main class that manages game actions and turns
+- GameState: enum class to distinguish game condition
+    ** IN_PROGRESS
+    ** FINISHED
 - Pool: holds the read-only version of tiles that can be drawn
 - MutablePool: manages the drawing of tiles when called
 - Rack: holds the tiles of the players
 - PlayerId: unique identifier for player, as value class
 - Set: a validator class which represents the sets that players play on the board.
-- SetType: sets can be either RUNS or GROUPS validated in Set
+- SetType: enum class to determine set type
+    ** RUN
+    ** GROUP
 - Board: holds the sets that players have played
 - Tile: main playing figure for Rummikub
 - TileColor: enum class to distinguish tile color
@@ -22,8 +27,10 @@ Do not rely on it!
     ** BLACK
     ** RED
     ** YELLOW
-- TileNumber: enum class to distinguish tile color
+- TileNumber: enum class to distinguish tile number and points
     ** (1-13)
+- CLI Shell: interactive command-line interface to play and interact with the Rummikub game directly via the terminal
+- Persistence Architecture: implementation of inbound and outbound adapters to support filesystem-based and SQL-based database persistence for saving and loading game states
 
 == Modulstruktur
 

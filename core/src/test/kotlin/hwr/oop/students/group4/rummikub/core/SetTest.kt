@@ -1,6 +1,8 @@
 package hwr.oop.students.group4.rummikub.core
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -38,7 +40,7 @@ class SetTest {
     @ParameterizedTest
     @MethodSource("tileCombinations")
     fun `set has less than 3 Tiles, exception`(tiles: List<Tile>) {
-        assertThatThrownBy { Set(tiles) }.hasMessageContaining("At least 3 tiles")
+        assertThatThrownBy { Set(tiles).type() }.hasMessageContaining("At least 3 tiles")
     }
 
     @Test
@@ -145,6 +147,8 @@ class SetTest {
         )
         //when
         //then
+        assertTrue(Set(tiles).tiles().size == tiles.size)
+        assertFalse(Set(tiles).tiles().size == 13)
         assertThatThrownBy { Set(tiles).type() }.hasMessageContaining("not valid group or run")
     }
 

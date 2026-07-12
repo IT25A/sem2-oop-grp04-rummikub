@@ -1,3 +1,5 @@
+set shell := ["powershell.exe", "-Command"]
+
 mvnw := if os() == "windows" { "./mvnw.cmd" } else { "./mvnw" }
 
 default:

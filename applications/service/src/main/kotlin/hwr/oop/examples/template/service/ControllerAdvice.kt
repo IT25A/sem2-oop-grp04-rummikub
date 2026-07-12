@@ -20,9 +20,26 @@ class ControllerAdvice {
 			/*error =*/ HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,
 			/*message =*/ ex.message ?: "An unexpected error occurred",
 		)
+
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(errorResponse)
 	}
+	// für jede Exception jeweils eine function
+	// Eigene exceptions anbauen TODO
+//	@ExceptionHandler(Exception::class)
+//	fun handleGenericException(
+//		ex: Exception,
+//		request: WebRequest,
+//	): ResponseEntity<ErrorResponse> {
+//		val errorResponse = ErrorResponse(
+//			/*status =*/ HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//			/*error =*/ HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase,
+//			/*message =*/ ex.message ?: "An unexpected error occurred",
+//		)
+//
+//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//			.body(errorResponse)
+//	}
 	
 }
 
