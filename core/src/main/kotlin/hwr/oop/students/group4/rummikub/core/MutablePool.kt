@@ -7,9 +7,7 @@ class MutablePool(
     fun draw(count: Int): List<Tile> {
         val rackTiles = mutableListOf<Tile>()
         repeat(count) {
-            if (tiles.isNotEmpty()) {
-                rackTiles.add(tiles.removeFirst())
-            }
+            rackTiles.add(tiles.removeFirst())
         }
         return rackTiles.toList()
     }
