@@ -82,6 +82,13 @@ class GameActionsTests {
 		)
 	)
 
+	private val missingBoardSet = Set(
+		listOf(
+			Tile(TileColor.RED, TileNumber.TWO),
+			Tile(TileColor.BLUE, TileNumber.TWO),
+			Tile(TileColor.YELLOW, TileNumber.TWO))
+	)
+
 	@Test
 	fun`playtile meld successful`(){
 		//when
@@ -164,6 +171,19 @@ class GameActionsTests {
 		val newTable = Board(listOf())
 		assertThatThrownBy { game.playTiles(newTable, player1) }.isInstanceOf(IllegalArgumentException::class.java)
 		assertThatThrownBy { game.playTiles(newTable, player1) }.hasMessageContaining("When playing tiles,")
+	}
+
+	@Test
+	fun `playtile failed, tiles from old table missing`(){
+		val game = Game(
+			racks = listOf(rack1, rack2),
+			currentPlayer = player1,
+			board = Board(listOf(missingBoardSet)),
+			pool = Pool(listOf(Tile(TileColor.BLUE, TileNumber.ONE))),
+		)
+		val newTable = Board(listOf(set1))
+		assertThatThrownBy { game.playTiles(newTable, player1) }.isInstanceOf(IllegalArgumentException::class.java)
+		assertThatThrownBy { game.playTiles(newTable, player1) }.hasMessageContaining("New table is missing tiles from old table")
 	}
 
 	@Test

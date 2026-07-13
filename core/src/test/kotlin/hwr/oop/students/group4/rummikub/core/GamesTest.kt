@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
+import java.util.UUID
 import java.util.stream.Stream
 
 class GamesTest {
@@ -159,6 +160,32 @@ class GamesTest {
 		val id = game.id()
 		//then
 		assertThat(id).isEqualTo(gameId)
+	}
+
+	@Test
+	fun `gameId from UUID`() {
+		//given
+		val uuid = UUID.randomUUID()
+		//when
+		val gameId = GameId.from(uuid)
+		//then
+		assertThat(uuid.toString()).isEqualTo(gameId.value)
+	}
+
+	@Test
+	fun `gameId random creates proper GameId`() {
+		val gameId = GameId.random()
+		assertThat(gameId).isInstanceOf(GameId::class.java)
+	}
+
+	@Test
+	fun `gameId matches UUID`() {
+		//given
+		val uuid = UUID.randomUUID()
+		val gameId = GameId.from(uuid)
+		//when
+		//then
+		assertThat(gameId.uuid()).isEqualTo(uuid)
 	}
 }
 
